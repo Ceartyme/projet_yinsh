@@ -14,11 +14,11 @@ class Lobby:
         self.__root.title = ("Yinsh")
         self.__root.attributes("-fullscreen", True)
 
-        w= self.__root.winfo_screenwidth()
-        h= self.__root.winfo_screenheight()
+        self.__w= self.__root.winfo_screenwidth()
+        self.__h= self.__root.winfo_screenheight()
 
         self.__bgimage = Image.open("img/bg/test.gif")
-        self.__bgimage=self.__bgimage.resize((w+100,h))
+        self.__bgimage=self.__bgimage.resize((self.__w+100,self.__h)) #2020 350/2020
         self.__bgimage1 = ImageTk.PhotoImage(self.__bgimage) 
 
         self.__startimage = Image.open("img/buttons/test.png")
@@ -33,9 +33,9 @@ class Lobby:
         self.__bg_canva = Canvas(self.__root,highlightthickness=0)
         self.__bg_canva.pack(fill=BOTH, expand=True)
         self.__bg_canva.create_image(-100,0,anchor=NW,image=self.__bgimage1)
-        self.__bg_canva.create_image(350,900,image=self.__startimage1, tags="start_image")
-        self.__bg_canva.create_image(950,900,image=self.__rulesimage, tags="rules_image")
-        self.__bg_canva.create_image(1550,900,image=self.__leaveimage1, tags="leave_image")
+        self.__bg_canva.create_image(self.__w/(2020/400),self.__h-175,image=self.__startimage1, tags="start_image")
+        self.__bg_canva.create_image(self.__w/(2020/1000),self.__h-175,image=self.__rulesimage, tags="rules_image")
+        self.__bg_canva.create_image(self.__w/(2020/1600),self.__h-175,image=self.__leaveimage1, tags="leave_image")
        
 
         self.__bg_canva.tag_bind("start_image", "<Button-1>", self.start_button_clicked)
@@ -88,9 +88,9 @@ class Lobby:
         self.__returnimage = Image.open("img/buttons/return.png")
         self.__returnimage = ImageTk.PhotoImage(self.__returnimage)
 
-        self.__bg_canva.create_image(375,900,image=self.__playersimage, tags="players_image")
-        self.__bg_canva.create_image(1000,900,image=self.__botimage, tags="bot_image")
-        self.__bg_canva.create_image(1575,900,image=self.__returnimage, tags="return_image")
+        self.__bg_canva.create_image(self.__w/(1980/350),self.__h-175, image=self.__playersimage, tags="players_image")
+        self.__bg_canva.create_image(self.__w/(1980/1025),self.__h-175, image=self.__botimage, tags="bot_image")
+        self.__bg_canva.create_image(self.__w/(1980/1650),self.__h-175, image=self.__returnimage, tags="return_image")
 
     def rules_button_clicked(self, event):
         Rules()
@@ -101,9 +101,9 @@ class Lobby:
     def return1_button_clicked(self, event):
         self.__bg_canva.delete("players_image", "bot_image", "return_image")
 
-        self.__bg_canva.create_image(350,900,image=self.__startimage1, tags="start_image")
-        self.__bg_canva.create_image(950,900,image=self.__rulesimage, tags="rules_image")
-        self.__bg_canva.create_image(1550,900,image=self.__leaveimage1, tags="leave_image")
+        self.__bg_canva.create_image(self.__w/(2020/400),self.__h-175,image=self.__startimage1, tags="start_image")
+        self.__bg_canva.create_image(self.__w/(2020/1000),self.__h-175,image=self.__rulesimage, tags="rules_image")
+        self.__bg_canva.create_image(self.__w/(2020/1600),self.__h-175,image=self.__leaveimage1, tags="leave_image")
 
     def players_button_clicked(self, event):
         self.__bg_canva.delete("players_image", "bot_image", "return_image")
