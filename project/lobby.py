@@ -4,6 +4,7 @@ from tkinter import ttk
 from PIL import Image, ImageTk
 from pygame import mixer
 import pygame
+from rules import *
 
 
 class Lobby:
@@ -13,11 +14,11 @@ class Lobby:
         self.__root.title = ("Yinsh")
         self.__root.attributes("-fullscreen", True)
 
-        w= self.__root.winfo_screenmmwidth()
-        h= self.__root.winfo_screenmmheight()
+        w= self.__root.winfo_screenwidth()
+        h= self.__root.winfo_screenheight()
 
         self.__bgimage = Image.open("img/bg/test.gif")
-        self.__bgimage=self.__bgimage.resize((2020,1080))
+        self.__bgimage=self.__bgimage.resize((w+100,h))
         self.__bgimage1 = ImageTk.PhotoImage(self.__bgimage) 
 
         self.__startimage = Image.open("img/buttons/test.png")
@@ -92,8 +93,8 @@ class Lobby:
         self.__bg_canva.create_image(1575,900,image=self.__returnimage, tags="return_image")
 
     def rules_button_clicked(self, event):
-        return
-    
+        Rules()
+        
     def leave_button_clicked(self, event):
         self.__root.destroy()
 
