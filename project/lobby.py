@@ -22,12 +22,15 @@ class Lobby:
         self.__bgimage1 = ImageTk.PhotoImage(self.__bgimage) 
 
         self.__startimage = Image.open("img/buttons/test.png")
+        self.__startimage=self.__startimage.resize((int(self.__w/(2020/340)),int(self.__h/(2020/225)))) #2020 340/120 
         self.__startimage1 = ImageTk.PhotoImage(self.__startimage) 
         
         self.__rulesimage = Image.open("img/buttons/rules.png")
+        self.__rulesimage=self.__rulesimage.resize((int(self.__w/(2020/340)),int(self.__h/(2020/225))))
         self.__rulesimage = ImageTk.PhotoImage(self.__rulesimage)
 
         self.__leaveimage = Image.open("img/buttons/leave.png")
+        self.__leaveimage=self.__leaveimage.resize((int(self.__w/(2020/340)),int(self.__h/(2020/225))))
         self.__leaveimage1 = ImageTk.PhotoImage(self.__leaveimage)
 
         self.__bg_canva = Canvas(self.__root,highlightthickness=0)
@@ -36,7 +39,6 @@ class Lobby:
         self.__bg_canva.create_image(self.__w/(2020/400),self.__h-175,image=self.__startimage1, tags="start_image")
         self.__bg_canva.create_image(self.__w/(2020/1000),self.__h-175,image=self.__rulesimage, tags="rules_image")
         self.__bg_canva.create_image(self.__w/(2020/1600),self.__h-175,image=self.__leaveimage1, tags="leave_image")
-       
 
         self.__bg_canva.tag_bind("start_image", "<Button-1>", self.start_button_clicked)
         self.__bg_canva.tag_bind("start_image", "<Enter>", self.start_button_hover)
@@ -80,12 +82,15 @@ class Lobby:
         self.__bg_canva.delete("start_image", "rules_image", "leave_image")
 
         self.__playersimage = Image.open("img/buttons/players.png")
+        self.__playersimage=self.__playersimage.resize((int(self.__w/(2020/545)),int(self.__h/(2020/225))))
         self.__playersimage = ImageTk.PhotoImage(self.__playersimage)
 
         self.__botimage = Image.open("img/buttons/bot.png")
+        self.__botimage=self.__botimage.resize((int(self.__w/(2020/400)),int(self.__h/(2020/225))))
         self.__botimage = ImageTk.PhotoImage(self.__botimage)
 
         self.__returnimage = Image.open("img/buttons/return.png")
+        self.__returnimage=self.__returnimage.resize((int(self.__w/(2020/440)),int(self.__h/(2020/225))))
         self.__returnimage = ImageTk.PhotoImage(self.__returnimage)
 
         self.__bg_canva.create_image(self.__w/(1980/350),self.__h-175, image=self.__playersimage, tags="players_image")
@@ -109,24 +114,27 @@ class Lobby:
         self.__bg_canva.delete("players_image", "bot_image", "return_image")
 
         self.__normalimage = Image.open("img/buttons/normal.png")
+        self.__normalimage=self.__normalimage.resize((int(self.__w/(2020/445)),int(self.__h/(2020/225))))
         self.__normalimage = ImageTk.PhotoImage(self.__normalimage)
 
         self.__blitzimage = Image.open("img/buttons/blitz.png")
+        self.__blitzimage=self.__blitzimage.resize((int(self.__w/(2020/340)),int(self.__h/(2020/225))))
         self.__blitzimage = ImageTk.PhotoImage(self.__blitzimage)
 
         self.__returnimage2 = Image.open("img/buttons/return.png")
+        self.__returnimage2=self.__returnimage2.resize((int(self.__w/(2020/440)),int(self.__h/(2020/225))))
         self.__returnimage2 = ImageTk.PhotoImage(self.__returnimage2)
 
-        self.__bg_canva.create_image(350,900,image=self.__normalimage, tags="normal_image")
-        self.__bg_canva.create_image(950,900,image=self.__blitzimage, tags="blitz_image")
-        self.__bg_canva.create_image(1550,900,image=self.__returnimage2, tags="return2_image")
+        self.__bg_canva.create_image(self.__w/(1980/350),self.__h-175,image=self.__normalimage, tags="normal_image")
+        self.__bg_canva.create_image(self.__w/(1980/1000),self.__h-175,image=self.__blitzimage, tags="blitz_image")
+        self.__bg_canva.create_image(self.__w/(1980/1650),self.__h-175,image=self.__returnimage2, tags="return2_image")
 
     def return2_button_clicked(self, event):
         self.__bg_canva.delete("normal_image", "blitz_image", "return2_image")
 
-        self.__bg_canva.create_image(375,900,image=self.__playersimage, tags="players_image")
-        self.__bg_canva.create_image(1000,900,image=self.__botimage, tags="bot_image")
-        self.__bg_canva.create_image(1575,900,image=self.__returnimage, tags="return_image")
+        self.__bg_canva.create_image(self.__w/(1980/350),self.__h-175,image=self.__playersimage, tags="players_image")
+        self.__bg_canva.create_image(self.__w/(1980/1025),self.__h-175,image=self.__botimage, tags="bot_image")
+        self.__bg_canva.create_image(self.__w/(1980/1650),self.__h-175,image=self.__returnimage, tags="return_image")
 
     def normal_button_clicked(self, event):
         return
@@ -136,6 +144,7 @@ class Lobby:
 
     def start_button_hover(self, event):
         self.__starthoverimage = Image.open("img/buttons/playhover.png")
+        self.__starthoverimage=self.__starthoverimage.resize((int(self.__w/(2020/340)),int(self.__h/(2020/225)))) #2020 340/120 
         self.__starthoverimage = ImageTk.PhotoImage(self.__starthoverimage)
         self.__bg_canva.itemconfig("start_image", image=self.__starthoverimage)
 
@@ -144,6 +153,7 @@ class Lobby:
 
     def rules_button_hover(self, event):
         self.__ruleshoverimage = Image.open("img/buttons/ruleshover.png")
+        self.__ruleshoverimage=self.__ruleshoverimage.resize((int(self.__w/(2020/340)),int(self.__h/(2020/225))))
         self.__ruleshoverimage = ImageTk.PhotoImage(self.__ruleshoverimage)
         self.__bg_canva.itemconfig("rules_image", image=self.__ruleshoverimage)
 
@@ -152,6 +162,7 @@ class Lobby:
 
     def leave_button_hover(self, event):
         self.__leavehoverimage = Image.open("img/buttons/leavehover.png")
+        self.__leavehoverimage=self.__leavehoverimage.resize((int(self.__w/(2020/340)),int(self.__h/(2020/225))))
         self.__leavehoverimage = ImageTk.PhotoImage(self.__leavehoverimage)
         self.__bg_canva.itemconfig("leave_image", image=self.__leavehoverimage)
 
@@ -160,6 +171,7 @@ class Lobby:
 
     def return1_button_hover(self, event):
         self.__returnhoverimage = Image.open("img/buttons/returnhover.png")
+        self.__returnhoverimage=self.__returnhoverimage.resize((int(self.__w/(2020/440)),int(self.__h/(2020/225))))
         self.__returnhoverimage = ImageTk.PhotoImage(self.__returnhoverimage)
         self.__bg_canva.itemconfig("return_image", image=self.__returnhoverimage)
 
@@ -168,6 +180,7 @@ class Lobby:
 
     def bot_button_hover(self, event):
         self.__bothoverimage = Image.open("img/buttons/bothover.png")
+        self.__bothoverimage=self.__bothoverimage.resize((int(self.__w/(2020/400)),int(self.__h/(2020/225))))
         self.__bothoverimage = ImageTk.PhotoImage(self.__bothoverimage)
         self.__bg_canva.itemconfig("bot_image", image=self.__bothoverimage)
 
@@ -176,6 +189,7 @@ class Lobby:
 
     def return2_button_hover(self, event):
         self.__return2hoverimage = Image.open("img/buttons/returnhover.png")
+        self.__return2hoverimage=self.__return2hoverimage.resize((int(self.__w/(2020/440)),int(self.__h/(2020/225))))
         self.__return2hoverimage = ImageTk.PhotoImage(self.__return2hoverimage)
         self.__bg_canva.itemconfig("return2_image", image=self.__return2hoverimage)
 
@@ -184,6 +198,7 @@ class Lobby:
 
     def players_button_hover(self, event):
         self.__playershoverimage = Image.open("img/buttons/playershover.png")
+        self.__playershoverimage=self.__playershoverimage.resize((int(self.__w/(2020/545)),int(self.__h/(2020/225))))
         self.__playershoverimage = ImageTk.PhotoImage(self.__playershoverimage)
         self.__bg_canva.itemconfig("players_image", image=self.__playershoverimage)
 
@@ -192,6 +207,7 @@ class Lobby:
 
     def normal_button_hover(self, event):
         self.__normalhoverimage = Image.open("img/buttons/normalhover.png")
+        self.__normalhoverimage=self.__normalhoverimage.resize((int(self.__w/(2020/445)),int(self.__h/(2020/225))))
         self.__normalhoverimage = ImageTk.PhotoImage(self.__normalhoverimage)
         self.__bg_canva.itemconfig("normal_image", image=self.__normalhoverimage)
 
@@ -200,6 +216,7 @@ class Lobby:
 
     def blitz_button_hover(self, event):
         self.__blitzhoverimage = Image.open("img/buttons/blitzhover.png")
+        self.__blitzhoverimage=self.__blitzhoverimage.resize((int(self.__w/(2020/340)),int(self.__h/(2020/225))))
         self.__blitzhoverimage = ImageTk.PhotoImage(self.__blitzhoverimage)
         self.__bg_canva.itemconfig("blitz_image", image=self.__blitzhoverimage)
 
