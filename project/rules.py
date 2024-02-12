@@ -4,31 +4,28 @@ from PIL import Image, ImageTk
 
 class Rules:
     
-    def __init__(self):
-        self.__root = Tk()
-        self.__root.title("Rules")
-        self.__root.attributes("-fullscreen", True)
+    def __init__(self,canva,root,start,rules,leave):
 
-        self.__w = self.__root.winfo_screenwidth()
-        self.__h = self.__root.winfo_screenheight()
+        self.__start = start
+        self.__rules = rules
+        self.__leave = leave
 
-        self.__bgimage = Image.open("img/bg/test.gif")
-        self.__bgimage = self.__bgimage.resize((self.__w + 100, self.__h))
-        self.__bgimage = ImageTk.PhotoImage(self.__bgimage)
+        self.__w = root.winfo_screenwidth()
+        self.__h = root.winfo_screenheight()
+
 
         self.__croiximage = Image.open("img/buttons/croix.png")
         self.__croiximage = self.__croiximage.resize((int(self.__w / (2020 / 90)), int(self.__h / (2020 / 150))))
         self.__croiximage = ImageTk.PhotoImage(self.__croiximage)
 
-        self.__bg_canvas = Canvas(self.__root, highlightthickness=0)
-        self.__bg_canvas.pack(fill=BOTH, expand=True)
-        self.__bg_canvas.create_image(-100, 0, anchor=NW, image=self.__bgimage)
+        self.__bg_canvas = canva
         self.__bg_canvas.create_image(self.__w /1.08, self.__h * 0.13, image=self.__croiximage, tags="croix_image")
 
         self.__bg_canvas.tag_bind("croix_image", "<Button-1>", self.quit_button_clicked)
         self.__bg_canvas.tag_bind("croix_image", "<Enter>", self.quit_button_enter)
         self.__bg_canvas.tag_bind("croix_image", "<Leave>", self.quit_button_leave)
-   
+
+
 
         frame_width = self.__w - 100
         frame_height = self.__h - 100
@@ -39,7 +36,9 @@ class Rules:
         x2 = x1 + frame_width
         y2 = y1 + frame_height
 
-        self.__bg_canvas.create_rectangle(x1, y1, x2, y2, fill="#E3D7FF", outline="#E3D7FF", width=10)
+        self.__bg_canvas.create_rectangle(x1, y1, x2, y2, fill="#E3D7FF", stipple="gray50" ,outline="#E3D7FF", width=10, tags="frame")
+        self.__bg_canvas.create_image(self.__w /1.08, self.__h * 0.13, image=self.__croiximage, tags="croix_image")
+
 
         rules_text = """Pour commencer la partie :
 Placer le plateau au centre de la table. Chaque joueur choisir sa couleur: noir ou blanc.
@@ -74,11 +73,14 @@ Blanc commence. Tour à tour, chaque joueur doit déplacer un de ses anneaux en 
 - Fin de la partie
 - Dès qu'un joueur possède trois anneaux de victoire, il gagne la partie."""
 
-        self.__bg_canvas.create_text(self.__w//2, self.__h // 2, text=rules_text, fill="black", font=("Helvetica", int(2020/175), "bold"))
-        self.__root.mainloop()
+        self.__bg_canvas.create_text(self.__w//2, self.__h // 2, text=rules_text, fill="black", font=("Helvetica", int(2020/175), "bold"), tags="text")
 
     def quit_button_clicked(self, event):
-        return
+        self.__bg_canvas.delete("croix_image","frame","text")
+
+        self.__bg_canvas.create_image(self.__w/(2020/400),self.__h-175,image=self.__start, tags="start_image")
+        self.__bg_canvas.create_image(self.__w/(2020/1000),self.__h-175,image=self.__rules, tags="rules_image")
+        self.__bg_canvas.create_image(self.__w/(2020/1600),self.__h-175,image=self.__leave, tags="leave_image")
 
     def quit_button_enter(self, event):
         self.__croixhoverimage = Image.open("img/buttons/croixhover.png")
@@ -89,4 +91,3 @@ Blanc commence. Tour à tour, chaque joueur doit déplacer un de ses anneaux en 
     def quit_button_leave(self, event):
         self.__bg_canvas.itemconfig("croix_image", image=self.__croiximage)
 
-rules = Rules()

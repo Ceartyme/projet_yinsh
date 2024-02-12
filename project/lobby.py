@@ -1,10 +1,13 @@
+from rules import *
+from game import *
 from tkinter import *
 from tkinter import messagebox
 from tkinter import ttk
 from PIL import Image, ImageTk
 from pygame import mixer
 import pygame
-from rules import *
+
+
 
 
 class Lobby:
@@ -78,6 +81,13 @@ class Lobby:
 
         self.__root.mainloop()
 
+    def button_sound(self):
+        pygame.init()
+        pygame.mixer.init()
+        son = pygame.mixer.Sound('music/gamestart.mp3')
+        channel = pygame.mixer.Channel(1)
+        channel.play(son)
+
     def start_button_clicked(self,event):
         self.__bg_canva.delete("start_image", "rules_image", "leave_image")
 
@@ -98,7 +108,8 @@ class Lobby:
         self.__bg_canva.create_image(self.__w/(1980/1650),self.__h-175, image=self.__returnimage, tags="return_image")
 
     def rules_button_clicked(self, event):
-        Rules()
+        self.__bg_canva.delete("start_image", "rules_image", "leave_image")
+        Rules(canva=self.__bg_canva,root=self.__root,start=self.__startimage1, rules=self.__rulesimage, leave=self.__leaveimage1)
         
     def leave_button_clicked(self, event):
         self.__root.destroy()
@@ -137,10 +148,12 @@ class Lobby:
         self.__bg_canva.create_image(self.__w/(1980/1650),self.__h-175,image=self.__returnimage, tags="return_image")
 
     def normal_button_clicked(self, event):
-        return
+        self.button_sound()
+        Game(self.__bg_canva,self.__root)
 
     def blitz_button_clicked(self,event):
-        return
+        self.button_sound
+        Game(self.__bg_canva,self.__root)
 
     def start_button_hover(self, event):
         self.__starthoverimage = Image.open("img/buttons/playhover.png")

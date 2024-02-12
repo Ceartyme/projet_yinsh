@@ -1,14 +1,12 @@
 from tkinter import *
 from tkinter import messagebox
 from Elements import Ring,Pawn
+from PIL import Image, ImageTk
 
 class Game:
-    def __init__(self) -> None:
-        self.__root = Tk()
-        self.__root.title("Yinsh")
-        self.__root.attributes("-fullscreen", True)
-        self.__root.configure(bg="black")
-        
+    def __init__(self,canva_lobby,root) -> None:
+        self.__root = root
+        self.__canva_lobby=canva_lobby
         
         self.__canva_width=self.__root.winfo_screenwidth()/2.3
         self.__canva_height=self.__root.winfo_screenheight()/1.5
@@ -26,7 +24,14 @@ class Game:
         self.update()
         self.__root.mainloop()
         
-        
+        self.__croiximage = Image.open("img/buttons/croix.png")
+        self.__croiximage = self.__croiximage.resize((int(self.__canva_width / (2020 / 90)), int(self.__canva_height / (2020 / 150))))
+        self.__croiximage = ImageTk.PhotoImage(self.__croiximage)
+
+        self.__canva.tag_bind("croix_image", "<Button-1>", self.close)
+
+
+        self.__canva.create_image(self.__canva_width /1.08, self.__canva_height * 0.13, image=self.__croiximage, tags="croix_image")
         
     def update(self):
 
@@ -53,5 +58,10 @@ class Game:
         for elem in self.__ring_list:
             elem.draw()
             
-            
-Game()
+    def close(self, event):
+        self.__canva.delete("croix_image","frame","text")
+        self.__canva.pack_forget()
+
+        self.__canva_lobby.create_image(self.__w/(2020/400),self.__h-175,image=self.__start, tags="start_image")
+        self.__canva_lobby.create_image(self.__w/(2020/1000),self.__h-175,image=self.__rules, tags="rules_image")
+        self.__canva_lobby.create_image(self.__w/(2020/1600),self.__h-175,image=self.__leave, tags="leave_image")

@@ -52,6 +52,3 @@ class Ring(Elements):
     def draw(self):
         self._canva.create_oval(self._coords[0]-self._side,self._coords[1]-self._side,self._coords[0]+self._side,self._coords[1]+self._side,fill='',outline=self._color, width=5 )
             
-
-    
-    
