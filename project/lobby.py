@@ -1,5 +1,6 @@
 from rules import *
 from game import *
+from multiplayer import *
 from tkinter import *
 from tkinter import messagebox
 from tkinter import ttk
@@ -14,6 +15,7 @@ class Lobby:
 
     def __init__(self):
         self.__root = Tk()
+        self.__root.configure(bg='#000')
         self.__root.title = ("Yinsh")
         self.__root.attributes("-fullscreen", True)
 
@@ -84,7 +86,7 @@ class Lobby:
     def button_sound(self):
         pygame.init()
         pygame.mixer.init()
-        son = pygame.mixer.Sound('music/gamestart.mp3')
+        son = pygame.mixer.Sound('music/game_start.mp3')
         channel = pygame.mixer.Channel(1)
         channel.play(son)
 
@@ -149,11 +151,13 @@ class Lobby:
 
     def normal_button_clicked(self, event):
         self.button_sound()
-        Game(self.__bg_canva,self.__root)
+        self.__bg_canva.delete("normal_image", "blitz_image", "return2_image")
+        Multiplayer(canva = self.__bg_canva,root=self.__root,normal=self.__normalimage, blitz=self.__blitzimage, return1=self.__returnimage2)
 
     def blitz_button_clicked(self,event):
-        self.button_sound
-        Game(self.__bg_canva,self.__root)
+        self.button_sound()
+        self.__bg_canva.delete("normal_image", "blitz_image", "return2_image")
+        Multiplayer(canva = self.__bg_canva,root=self.__root,normal=self.__normalimage, blitz=self.__blitzimage, return1=self.__returnimage2)
 
     def start_button_hover(self, event):
         self.__starthoverimage = Image.open("img/buttons/playhover.png")
