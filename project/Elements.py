@@ -12,10 +12,10 @@ class Elements:
         self._canva=canva
         
     def get_player(self):
-        return self.__player_id
+        return self._player_id
 
     def get_box(self):
-        return (self.__coords[1]/self._box_dim[1],self.__coords[0]/self._box_dim[0])
+        return (self._coords[0]/self._box_dim[0],self._coords[1]/self._box_dim[1])
     
     def get_coords(self):
         return self._coords

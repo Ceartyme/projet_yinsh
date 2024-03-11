@@ -90,7 +90,7 @@ class Lobby:
 
     def start_button_clicked(self,event):
         self.__bg_canva.delete("start_image", "rules_image", "leave_image")
-
+    
         self.__playersimage = Image.open("img/buttons/players.png")
         self.__playersimage=self.__playersimage.resize((int(self.__w/(2020/545)),int(self.__h/(2020/225))))
         self.__playersimage = ImageTk.PhotoImage(self.__playersimage)
