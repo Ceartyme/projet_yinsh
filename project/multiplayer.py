@@ -20,17 +20,6 @@ class Multiplayer:
         self.__w = root.winfo_screenwidth()
         self.__h = root.winfo_screenheight()
 
-        frame_width = self.__w - 100
-        frame_height = self.__h - 100
-
-        x1 = 50
-        y1 = 50
-
-        x2 = x1 + frame_width
-        y2 = y1 + frame_height
-
-        self.__bg_canvas.create_rectangle(x1, y1, x2, y2, fill="#E3D7FF" , stipple="gray50", outline="#E3D7FF", width=10, tags="frame")
-
         self.__bgimage = Image.open("img/bg/test.gif")
         self.__bgimage=self.__bgimage.resize((self.__w+100,self.__h)) #2020 350/2020
         self.__bgimage1 = ImageTk.PhotoImage(self.__bgimage) 
@@ -56,9 +45,6 @@ class Multiplayer:
         self.__bg_canvas.create_image(self.__w/(2020/1600),self.__h-600, image=self.__joinimage, tags="join_image")
         self.__bg_canvas.create_image(self.__w/(1980/1000),self.__h-175, image=self.__returnimage, tags="return3_image")
 
-        self.__entry = Entry(self.__bg_canvas, bg="#AFA2FF", border=5)
-        self.__entry.place(x=self.__w/(2020/1525), y=self.__h-750, width=150, height=50)
-
         self.__bg_canvas.tag_bind("local_image", "<Button-1>", self.local_button_clicked)
         self.__bg_canvas.tag_bind("local_image", "<Enter>", self.local_button_enter)
         self.__bg_canvas.tag_bind("local_image", "<Leave>", self.local_button_leave)
@@ -75,55 +61,51 @@ class Multiplayer:
         self.__bg_canvas.tag_bind("return3_image", "<Enter>", self.return3_button_enter)
         self.__bg_canvas.tag_bind("return3_image", "<Leave>", self.return3_button_leave)
 
-    def fade_in(self):
-        self.__fade_canva = Canvas(self.__bg_canvas, width=self.__w, height=self.__h)
-        self.__fade_canva.place(x=0, y=0)
-
-        self.__red -= 1
-        self.__blue -= 1
-        self.__green -= 1
-
-        if self.__red > 2:
-            colour = '#{:02x}{:02x}{:02x}'.format(self.__red, self.__blue, self.__green)
-            self.__fade_canva.configure(bg=colour)
-
-            self.__fade_canva.after(10, self.fade_in)
-        else:
-            self.fade_out()
-        
-    def fade_out(self):
-        self.__fade_canva = Canvas(self.__bg_canvas, width=self.__w, height=self.__h)
-        self.__fade_canva.place(x=0, y=0)
-
-        self.__red += 1
-        self.__blue += 1
-        self.__green += 1
-
-        if self.__red < 256:
-            colour = '#{:02x}{:02x}{:02x}'.format(self.__red, self.__blue, self.__green)
-            self.__fade_canva.configure(bg=colour)
-
-            self.__fade_canva.after(10, self.fade_out)
-
     def local_button_clicked(self, event):
         self.__bg_canvas.delete("join_image", "local_image", "return3_image", "host_image","frame")
-        self.__entry.destroy()
-        self.fade_in()
-        
 
     def host_button_clicked(self, event):
         self.__bg_canvas.delete("join_image", "local_image", "return3_image", "host_image","frame")
-        self.__entry.destroy()
-        Game(self.__bg_canvas,self.__root)
+
+        self.__bg_canvas.create_image(self.__w/(2020/1000),self.__h-175,image=self.__return, tags="return5_image")
+
+        self.__bg_canvas.tag_bind("return5_image", "<Button-1>", self.return5_button_clicked)
+        self.__bg_canvas.tag_bind("return5_image", "<Enter>", self.return5_button_enter)
+        self.__bg_canvas.tag_bind("return5_image", "<Leave>", self.return5_button_leave) 
 
     def join_button_clicked(self, event):
         self.__bg_canvas.delete("join_image", "local_image", "return3_image", "host_image","frame")
+
+        self.__bg_canvas.create_image(self.__w/(1980/725),self.__h-175,image=self.__joinimage, tags="join_image")
+        self.__bg_canvas.create_image(self.__w/(1980/1225),self.__h-175,image=self.__return, tags="return4_image")
+
+        self.__bg_canvas.tag_bind("return4_image", "<Button-1>", self.return4_button_clicked)
+        self.__bg_canvas.tag_bind("return4_image", "<Enter>", self.return4_button_enter)
+        self.__bg_canvas.tag_bind("return4_image", "<Leave>", self.return4_button_leave)        
+
+        self.__entry = Entry(self.__bg_canvas)
+        self.__entry.config(font=('Arial', 20), justify=CENTER, bg="#E3D7FF", fg="white")
+        self.__entry.place(x = self.__w/(2020/700),y= self.__h-600, width=600,height=50)
+
+    def return5_button_clicked(self, event):
+        self.__bg_canvas.delete("return5_image","frame")
+        
+        self.__bg_canvas.create_image(self.__w/(2020/400),self.__h-600, image=self.__localimage, tags="local_image")
+        self.__bg_canvas.create_image(self.__w/(2020/1000),self.__h-600, image=self.__hostimage, tags="host_image")
+        self.__bg_canvas.create_image(self.__w/(2020/1600),self.__h-600, image=self.__joinimage, tags="join_image")
+        self.__bg_canvas.create_image(self.__w/(1980/1000),self.__h-175, image=self.__returnimage, tags="return3_image")
+
+    def return4_button_clicked(self, event):
+        self.__bg_canvas.delete("join_image", "return4_image","frame")
         self.__entry.destroy()
-        Game(self.__bg_canvas,self.__root)
+
+        self.__bg_canvas.create_image(self.__w/(2020/400),self.__h-600, image=self.__localimage, tags="local_image")
+        self.__bg_canvas.create_image(self.__w/(2020/1000),self.__h-600, image=self.__hostimage, tags="host_image")
+        self.__bg_canvas.create_image(self.__w/(2020/1600),self.__h-600, image=self.__joinimage, tags="join_image")
+        self.__bg_canvas.create_image(self.__w/(1980/1000),self.__h-175, image=self.__returnimage, tags="return3_image")
 
     def return3_button_clicked(self, event):
         self.__bg_canvas.delete("join_image", "local_image", "return3_image", "host_image","frame")
-        self.__entry.destroy()
 
         self.__bg_canvas.create_image(self.__w/(1980/350),self.__h-175,image=self.__normal, tags="normal_image")
         self.__bg_canvas.create_image(self.__w/(1980/1025),self.__h-175,image=self.__blitz, tags="blitz_image")
@@ -166,3 +148,23 @@ class Multiplayer:
     def return3_button_leave(self, event):
 
         self.__bg_canvas.itemconfig("return3_image", image=self.__returnimage)
+
+    def return4_button_enter(self, event):
+        self.__returnhoverimage = Image.open("img/buttons/returnhover.png")
+        self.__returnhoverimage=self.__returnhoverimage.resize((int(self.__w/(2020/440)),int(self.__h/(2020/225))))
+        self.__returnhoverimage = ImageTk.PhotoImage(self.__returnhoverimage)
+        self.__bg_canvas.itemconfig("return4_image", image=self.__returnhoverimage)
+
+    def return4_button_leave(self, event):
+
+        self.__bg_canvas.itemconfig("return4_image", image=self.__returnimage)
+
+    def return5_button_enter(self, event):
+        self.__returnhoverimage = Image.open("img/buttons/returnhover.png")
+        self.__returnhoverimage=self.__returnhoverimage.resize((int(self.__w/(2020/440)),int(self.__h/(2020/225))))
+        self.__returnhoverimage = ImageTk.PhotoImage(self.__returnhoverimage)
+        self.__bg_canvas.itemconfig("return5_image", image=self.__returnhoverimage)
+
+    def return5_button_leave(self, event):
+
+        self.__bg_canvas.itemconfig("return5_image", image=self.__returnimage)
