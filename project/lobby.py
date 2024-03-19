@@ -152,11 +152,13 @@ class Lobby:
     def normal_button_clicked(self, event):
         self.button_sound()
         self.__bg_canva.delete("normal_image", "blitz_image", "return2_image")
+        
         Multiplayer(canva = self.__bg_canva,root=self.__root,normal=self.__normalimage, blitz=self.__blitzimage, return1=self.__returnimage2)
 
     def blitz_button_clicked(self,event):
         self.button_sound()
-        self.__bg_canva.delete("normal_image", "blitz_image", "return2_image")
+        self.__bg_canva.delete("normal_image", "blitz_image", "return2_image")       
+
         Multiplayer(canva = self.__bg_canva,root=self.__root,normal=self.__normalimage, blitz=self.__blitzimage, return1=self.__returnimage2)
 
     def start_button_hover(self, event):

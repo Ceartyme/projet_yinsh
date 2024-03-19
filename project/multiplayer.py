@@ -2,6 +2,7 @@ from game import *
 from tkinter import *
 from tkinter import ttk
 from PIL import Image, ImageTk
+import time
 
 class Multiplayer:
 
@@ -64,10 +65,18 @@ class Multiplayer:
     def local_button_clicked(self, event):
         self.__bg_canvas.delete("join_image", "local_image", "return3_image", "host_image","frame")
 
+        Game(self.__bg_canvas,self.__root)
+
+        
     def host_button_clicked(self, event):
         self.__bg_canvas.delete("join_image", "local_image", "return3_image", "host_image","frame")
 
         self.__bg_canvas.create_image(self.__w/(2020/1000),self.__h-175,image=self.__return, tags="return5_image")
+
+        host_text = "Your code is"
+
+        self.__bg_canvas.create_rectangle(self.__w//2-150,self.__h/2.5-30, self.__w//2+150, self.__h/2.5+25, fill="#E3D7FF",outline="#AFA2FF", width=5 ,tags="frame")
+        self.__bg_canvas.create_text(self.__w//2,self.__h/2.5, text=host_text, font=("Helvetica", int(self.__w / (2020 / 30)), "bold"), fill="black", tags="text")
 
         self.__bg_canvas.tag_bind("return5_image", "<Button-1>", self.return5_button_clicked)
         self.__bg_canvas.tag_bind("return5_image", "<Enter>", self.return5_button_enter)
@@ -81,14 +90,18 @@ class Multiplayer:
 
         self.__bg_canvas.tag_bind("return4_image", "<Button-1>", self.return4_button_clicked)
         self.__bg_canvas.tag_bind("return4_image", "<Enter>", self.return4_button_enter)
-        self.__bg_canvas.tag_bind("return4_image", "<Leave>", self.return4_button_leave)        
+        self.__bg_canvas.tag_bind("return4_image", "<Leave>", self.return4_button_leave)
+
+        join_text = "Enter the code"       
+
+        self.__bg_canvas.create_text(self.__w//2, self.__h // 2.5, text=join_text, fill="black", font=("Helvetica", int(self.__w/(2020/30)), "bold"), tags="text")
 
         self.__entry = Entry(self.__bg_canvas)
-        self.__entry.config(font=('Arial', 20), justify=CENTER, bg="#E3D7FF", fg="white")
-        self.__entry.place(x = self.__w/(2020/700),y= self.__h-600, width=600,height=50)
+        self.__entry.config(font=('Arial', 20), justify=CENTER, bg="#E3D7FF", fg="black", insertbackground="black", relief="flat", borderwidth=5, highlightthickness=5, highlightbackground="#AFA2FF")
+        self.__entry.place(x = self.__w // 3,y= self.__h // 2, width=self.__w/3,height=self.__h/15)
 
     def return5_button_clicked(self, event):
-        self.__bg_canvas.delete("return5_image","frame")
+        self.__bg_canvas.delete("return5_image","frame", "text")
         
         self.__bg_canvas.create_image(self.__w/(2020/400),self.__h-600, image=self.__localimage, tags="local_image")
         self.__bg_canvas.create_image(self.__w/(2020/1000),self.__h-600, image=self.__hostimage, tags="host_image")
@@ -96,7 +109,7 @@ class Multiplayer:
         self.__bg_canvas.create_image(self.__w/(1980/1000),self.__h-175, image=self.__returnimage, tags="return3_image")
 
     def return4_button_clicked(self, event):
-        self.__bg_canvas.delete("join_image", "return4_image","frame")
+        self.__bg_canvas.delete("join_image", "return4_image","frame","text")
         self.__entry.destroy()
 
         self.__bg_canvas.create_image(self.__w/(2020/400),self.__h-600, image=self.__localimage, tags="local_image")

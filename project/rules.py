@@ -36,7 +36,7 @@ class Rules:
         x2 = x1 + frame_width
         y2 = y1 + frame_height
 
-        self.__bg_canvas.create_rectangle(x1, y1, x2, y2, fill="#E3D7FF", stipple="gray50" ,outline="#E3D7FF", width=10, tags="frame")
+        self.__bg_canvas.create_rectangle(x1, y1, x2, y2, fill="#E3D7FF",outline="#AFA2FF", width=10, tags="frame")
         self.__bg_canvas.create_image(self.__w /1.08, self.__h * 0.13, image=self.__croiximage, tags="croix_image")
 
 
