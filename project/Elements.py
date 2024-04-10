@@ -4,7 +4,7 @@ from math import sqrt
 class Elements:
     def __init__(self,id:int,box_w:float,box_h:float,x:float,y:float,canva) :
         self._player_id = id
-        self._color = "red" if self._player_id == 1 else "blue"
+        self._color = "red" if self._player_id == 1 else "blue" if self._player_id == 2  else "grey" 
         self._box_dim=(box_w,box_h)
         self._coords=(x,y)
         self._radius=(self._box_dim[1]*0.9)/2
@@ -15,7 +15,7 @@ class Elements:
         return self._player_id
 
     def get_box(self):
-        return (self._coords[0]/self._box_dim[0],self._coords[1]/self._box_dim[1])
+        return (round(self._coords[0]/self._box_dim[0],0),round(self._coords[1]/self._box_dim[1],0))
     
     def get_coords(self):
         return self._coords
@@ -25,7 +25,7 @@ class Elements:
     
     
     def set_box(self,ligne,col):
-        self._coords=(col*self._box_dim[0],ligne*self._box_dim[1])
+        self._coords=(ligne*self._box_dim[0],col*self._box_dim[1])
         
     def set_coords(self,x,y):
         self._coords=(x,y)
@@ -36,12 +36,12 @@ class Elements:
         
         
 class Pawn(Elements):
-    def __init__(self, id,canva,box_w,box_h,x,y):
+    def __init__(self, id :int ,canva,box_w,box_h,x,y,):
         super().__init__(id,box_w,box_h,x,y,canva)
         
         
     def draw(self):
-        self._canva.create_oval(self._coords[0]-self._side,self._coords[1]-self._side,self._coords[0]+self._side,self._coords[1]+self._side,fill=self._color,outline='black', width=2   )
+        self._canva.create_oval(self._coords[0]-self._side+5,self._coords[1]-self._side+5,self._coords[0]+self._side-5,self._coords[1]+self._side-5,fill=self._color,outline='black', width=2   )
         
         
 class Ring(Elements):

@@ -19,3 +19,15 @@ def find_closer(x: float,y: float) -> tuple[int, int]:
 def compute_distance(coord1 : tuple[int,int],coord2 : tuple[int,int]) -> float:
     distance=sqrt((coord1[0]-coord2[0])**2+(coord1[1]-coord2[1])**2)
     return distance
+
+def position_in_list(x: int,y: int, liste: list) -> bool:
+    for elem in liste:
+        if elem.get_box()==(x,y):
+            return True
+    return False
+
+def get_index(x:int,y:int,liste: list) -> int:
+    for i in range(len(liste)):
+        if liste[i].get_box()==(x,y):
+            return i
+    return -1
