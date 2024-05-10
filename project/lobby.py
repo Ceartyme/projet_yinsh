@@ -26,6 +26,9 @@ class Lobby:
         self.__bgimage=self.__bgimage.resize((self.__w+100,self.__h)) #2020 350/2020
         self.__bgimage1 = ImageTk.PhotoImage(self.__bgimage) 
 
+        self.__titleimage = Image.open("img/bg/yinsh.png")
+        self.__titleimage = ImageTk.PhotoImage(self.__titleimage)
+
         self.__startimage = Image.open("img/buttons/test.png")
         self.__startimage=self.__startimage.resize((int(self.__w/(2020/340)),int(self.__h/(2020/225)))) #2020 340/120 
         self.__startimage1 = ImageTk.PhotoImage(self.__startimage) 
@@ -41,6 +44,7 @@ class Lobby:
         self.__bg_canva = Canvas(self.__root,highlightthickness=0)
         self.__bg_canva.pack(fill=BOTH, expand=True)
         self.__bg_canva.create_image(-100,0,anchor=NW,image=self.__bgimage1)
+        self.__bg_canva.create_image(self.__w/2/2,self.__h/2/2,anchor=NW,image=self.__titleimage, tags="title_image")
         self.__bg_canva.create_image(self.__w/(2020/400),self.__h-175,image=self.__startimage1, tags="start_image")
         self.__bg_canva.create_image(self.__w/(2020/1000),self.__h-175,image=self.__rulesimage, tags="rules_image")
         self.__bg_canva.create_image(self.__w/(2020/1600),self.__h-175,image=self.__leaveimage1, tags="leave_image")
@@ -151,13 +155,13 @@ class Lobby:
 
     def normal_button_clicked(self, event):
         self.button_sound()
-        self.__bg_canva.delete("normal_image", "blitz_image", "return2_image")
+        self.__bg_canva.delete("normal_image", "blitz_image", "return2_image", "title_image")
         
         Multiplayer(canva = self.__bg_canva,root=self.__root,normal=self.__normalimage, blitz=self.__blitzimage, return1=self.__returnimage2)
 
     def blitz_button_clicked(self,event):
         self.button_sound()
-        self.__bg_canva.delete("normal_image", "blitz_image", "return2_image")       
+        self.__bg_canva.delete("normal_image", "blitz_image", "return2_image", "title_image")       
 
         Multiplayer(canva = self.__bg_canva,root=self.__root,normal=self.__normalimage, blitz=self.__blitzimage, return1=self.__returnimage2)
 
