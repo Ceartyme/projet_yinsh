@@ -36,7 +36,7 @@ class Game:
         self.__forbidden_list=[(3,19),(1,19),(2,18),(1,17),(1,15),(1,5),(1,3),(1,1),(2,2),(3,1),(9,1),(10,2),(11,1),(11,3),(11,5),(11,15),(11,19),(11,17),(10,18),(9,19)]
         self.__possible_list=[]
         self.__display_possible=True
-        self.__line_list=[0,[]]
+        self.__line_list=[0]
         
         self.update()
         
@@ -173,7 +173,8 @@ class Game:
         if self.__line_list[0]!=0:
             print("il y a ",self.__line_list[0]," lignes")
             for i in range(self.__line_list[0]):
-                print(self.__line_list[1][i])
+                print(self.__line_list)
+            print(self.__line_list)
     
     def verif_line(self,elem, arr):
         i=1
@@ -182,25 +183,34 @@ class Game:
         while i<5:
             coords[0],coords[1]=coords[0]+1,coords[1]+1
             if i==4 and position_in_list(coords[0],coords[1],arr):
-                self.__line_list.append((elem.get_coords(),(coords[0],coords[1])))
-                self.__line_list[1].append(elem.get_player())
+                self.__line_list.append([(elem.get_box(),(coords[0],coords[1])),elem.get_player()])
                 self.__line_list[0]+=1
             elif not position_in_list(coords[0],coords[1],arr):
                 i=10
             i+=1
                 
         i=1
-        temp=elem.get_box()
         coords=[temp[0],temp[1]]
         while i<5:
             coords[0],coords[1]=coords[0]+1,coords[1]-1
             if i==4 and position_in_list(coords[0],coords[1],arr):
-                self.__line_list.append((elem.get_coords(),(coords[0],coords[1])))
-                self.__line_list[1].append(elem.get_player())
+                self.__line_list.append([(elem.get_box(),(coords[0],coords[1])),elem.get_player()])
                 self.__line_list[0]+=1
             elif not position_in_list(coords[0],coords[1],arr):
                 i=10
             i+=1
+
+        i=1
+        coords=[temp[0],temp[1]]
+        while i<5:
+            coords[1]=coords[1]+2
+            if i==4 and position_in_list(coords[0],coords[1],arr):
+                self.__line_list.append([(elem.get_box(),(coords[0],coords[1])),elem.get_player()])
+                self.__line_list[0]+=1
+            elif not position_in_list(coords[0],coords[1],arr):
+                i=10
+            i+=1
+            
             
             
         
