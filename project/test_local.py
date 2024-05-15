@@ -36,15 +36,14 @@ class TestLocal:
 
     def display_text(self, event):
         if event.keysym == "Return":
-            input_text = self.entry.get().strip()  # Supprimer les espaces en début et fin de texte
-            if input_text:  # Vérifier si le texte n'est pas vide après suppression des espaces
+            input_text = self.entry.get().strip()
+            if input_text:
                 if len(self.history) >= 10:
-                    self.history.pop(0)  # Supprimer le premier message
+                    self.history.pop(0)
                 self.history.append(input_text)
                 self.update_label()
-                self.entry.delete(0, tk.END)  # Effacer le texte de la zone de texte après l'envoi
+                self.entry.delete(0, tk.END)
             else:
-                # Si le texte est vide après suppression des espaces, ne rien faire
                 pass
 
     def update_label(self):
@@ -56,5 +55,4 @@ def main():
     app = TestLocal(root)
     root.mainloop()
 
-if __name__ == "__main__":
-    main()
+main()

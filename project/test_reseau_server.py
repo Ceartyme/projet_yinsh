@@ -82,9 +82,10 @@ def openConnection():
         client_receiver.start()
         client_sender.start()
     
-def main():
+def tkinterWindow():
     root = tk.Tk()
     app = TestLocal(root)
     root.mainloop()
 
-main()
+threading.Thread(target=tkinterWindow, daemon=True).start()
+threading.Thread(target=openConnection, daemon=True).start()
