@@ -4,7 +4,7 @@ HEADER = 64
 PORT =5050
 FORMAT = 'utf-8'
 DISCONNECT_MESSAGE = "!DISCONNECT"
-SERVER = "192.168.43.161"  #a modif quand on test en fonction de l'adresse locale de l'ordi qui sert de server
+SERVER = "10.128.173.170"  #a modif quand on test en fonction de l'adresse locale de l'ordi qui sert de server
 ADDR =(SERVER, PORT)
 
 
