@@ -189,8 +189,8 @@ class Lobby:
         self.__bg_canva.itemconfig("return_image", image=self.__returnhoverimage)
 
     def return1_button_hoverl(self, event):
-        self.__bg_canva.itemconfig("return_image", image=self.__returnimage)
-
+        self.__bg_canva.itemconfig("return_image", image=self.__returnimage) 
+        
     def bot_button_hover(self, event):
         self.__bothoverimage = Image.open("img/buttons/bothover.png")
         self.__bothoverimage=self.__bothoverimage.resize((int(self.__w/(2020/400)),int(self.__h/(2020/225))))
