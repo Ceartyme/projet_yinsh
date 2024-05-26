@@ -27,6 +27,7 @@ class Lobby:
         self.__bgimage1 = ImageTk.PhotoImage(self.__bgimage) 
 
         self.__titleimage = Image.open("img/bg/yinsh.png")
+        self.__titleimage=self.__titleimage.resize((int(self.__w/2.3),int(self.__h/5)))
         self.__titleimage = ImageTk.PhotoImage(self.__titleimage)
 
         self.__startimage = Image.open("img/buttons/test.png")
