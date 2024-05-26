@@ -22,7 +22,7 @@ class Lobby:
         self.__w= self.__root.winfo_screenwidth()
         self.__h= self.__root.winfo_screenheight()
 
-        self.__bgimage = Image.open("img/bg/test.gif")
+        self.__bgimage = Image.open("img/bg/bglobby1.png")
         self.__bgimage=self.__bgimage.resize((self.__w+100,self.__h)) #2020 350/2020
         self.__bgimage1 = ImageTk.PhotoImage(self.__bgimage) 
 
@@ -30,7 +30,7 @@ class Lobby:
         self.__titleimage=self.__titleimage.resize((int(self.__w/2.3),int(self.__h/5)))
         self.__titleimage = ImageTk.PhotoImage(self.__titleimage)
 
-        self.__startimage = Image.open("img/buttons/test.png")
+        self.__startimage = Image.open("img/buttons/play.png")
         self.__startimage=self.__startimage.resize((int(self.__w/(2020/340)),int(self.__h/(2020/225)))) #2020 340/120 
         self.__startimage1 = ImageTk.PhotoImage(self.__startimage) 
         
@@ -88,13 +88,6 @@ class Lobby:
 
         self.__root.mainloop()
 
-    def button_sound(self):
-        pygame.init()
-        pygame.mixer.init()
-        son = pygame.mixer.Sound('music/game_start.mp3')
-        channel = pygame.mixer.Channel(1)
-        channel.play(son)
-
     def start_button_clicked(self,event):
         self.__bg_canva.delete("start_image", "rules_image", "leave_image")
     
@@ -115,8 +108,7 @@ class Lobby:
         self.__bg_canva.create_image(self.__w/(1980/1650),self.__h-175, image=self.__returnimage, tags="return_image")
 
     def rules_button_clicked(self, event):
-        self.__bg_canva.delete("start_image", "rules_image", "leave_image")
-        Rules(canva=self.__bg_canva,root=self.__root,start=self.__startimage1, rules=self.__rulesimage, leave=self.__leaveimage1)
+        Rules(canva=self.__bg_canva,root=self.__root,box=None, turn=None, turn_player=None)
         
     def leave_button_clicked(self, event):
         self.__root.destroy()
@@ -155,16 +147,12 @@ class Lobby:
         self.__bg_canva.create_image(self.__w/(1980/1650),self.__h-175,image=self.__returnimage, tags="return_image")
 
     def normal_button_clicked(self, event):
-        self.button_sound()
-        self.__bg_canva.delete("normal_image", "blitz_image", "return2_image", "title_image")
         
-        Multiplayer(canva = self.__bg_canva,root=self.__root,normal=self.__normalimage, blitz=self.__blitzimage, return1=self.__returnimage2)
+        Game(canva_lobby = self.__bg_canva,root=self.__root)
 
     def blitz_button_clicked(self,event):
-        self.button_sound()
-        self.__bg_canva.delete("normal_image", "blitz_image", "return2_image", "title_image")       
 
-        Multiplayer(canva = self.__bg_canva,root=self.__root,normal=self.__normalimage, blitz=self.__blitzimage, return1=self.__returnimage2)
+        Game(canva_lobby= self.__bg_canva,root=self.__root)
 
     def start_button_hover(self, event):
         self.__starthoverimage = Image.open("img/buttons/playhover.png")

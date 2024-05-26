@@ -4,11 +4,8 @@ from PIL import Image, ImageTk
 
 class Rules:
     
-    def __init__(self,canva,root,start,rules,leave):
+    def __init__(self,canva,root, box, turn, turn_player):
 
-        self.__start = start
-        self.__rules = rules
-        self.__leave = leave
 
         self.__w = root.winfo_screenwidth()
         self.__h = root.winfo_screenheight()
@@ -20,6 +17,10 @@ class Rules:
 
         self.__bg_canvas = canva
         self.__bg_canvas.create_image(self.__w /1.08, self.__h * 0.13, image=self.__croiximage, tags="croix_image")
+
+        self.__box = box
+        self.__turn = turn
+        self.__turn_player = turn_player
 
         self.__bg_canvas.tag_bind("croix_image", "<Button-1>", self.quit_button_clicked)
         self.__bg_canvas.tag_bind("croix_image", "<Enter>", self.quit_button_enter)
@@ -61,10 +62,9 @@ Phase 2: Moving Rings
 
     def quit_button_clicked(self, event):
         self.__bg_canvas.delete("croix_image","frame","text")
-
-        self.__bg_canvas.create_image(self.__w/(2020/400),self.__h-175,image=self.__start, tags="start_image")
-        self.__bg_canvas.create_image(self.__w/(2020/1000),self.__h-175,image=self.__rules, tags="rules_image")
-        self.__bg_canvas.create_image(self.__w/(2020/1600),self.__h-175,image=self.__leave, tags="leave_image")
+        self.__box.pack()
+        self.__turn.pack(pady=5)
+        self.__turn_player.pack()
 
     def quit_button_enter(self, event):
         self.__croixhoverimage = Image.open("img/buttons/croixhover.png")
@@ -74,4 +74,3 @@ Phase 2: Moving Rings
 
     def quit_button_leave(self, event):
         self.__bg_canvas.itemconfig("croix_image", image=self.__croiximage)
-

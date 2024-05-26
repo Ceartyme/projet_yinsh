@@ -1,5 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
+from rules import Rules
+from endgame import EndGameRed, EndGameBlue
 from Elements import Ring,Pawn
 import Calculation as calc
 from PIL import Image, ImageTk
@@ -20,9 +22,25 @@ class Game:
         self.__canva_window:Canvas=Canvas(canva_lobby,width=self.__canva_window_width,height=self.__canva_window_height, highlightthickness=0, background="black")
         self.__canva_window.pack(fill=BOTH, expand=True, anchor=NW)
         
+        self.__bgimage = Image.open("img/bg/bglobby1.png")
+        self.__bgimage=self.__bgimage.resize((1920,1080)) #2020 350/2020
+        self.__bgimage = ImageTk.PhotoImage(self.__bgimage) 
+
+        self.__bgimage2 = Image.open("img/bg/bglobby2.png")
+        self.__bgimage2=self.__bgimage2.resize((1920,1080)) #2020 350/2020
+        self.__bgimage2 = ImageTk.PhotoImage(self.__bgimage2)
+
+        self.__bgimage3 = Image.open("img/bg/bglobby3.png")
+        self.__bgimage3=self.__bgimage3.resize((1920,1080)) #2020 350/2020
+        self.__bgimage3 = ImageTk.PhotoImage(self.__bgimage3)
+
+        self.__bg_count = 1
+
+        self.__canva_window.create_image(0,0,anchor=NW,image=self.__bgimage, tags="bgimage")
+        
         self.__canva_width:float=self.__root.winfo_screenwidth()/2.3
         self.__canva_height:float=self.__root.winfo_screenheight()/1.4
-        self.__canva:Canvas=Canvas(self.__canva_window, width=self.__canva_width, height=self.__canva_height,highlightthickness=0, background="black")
+        self.__canva:Canvas=Canvas(self.__canva_window, width=self.__canva_width, height=self.__canva_height,highlightthickness=0, background="white")
         self.__canva.pack()
         
         self.__canva.bind("<Button-1>",self.click)
@@ -35,6 +53,7 @@ class Game:
         self.__rings_placed:bool=False
         self.__pawn_placed:bool=False
         self.__player_turn:int=1
+        self.__turn_counter:int=0
         self.__pawn_list:list[list[Pawn]]=[[],[]]
         self.__ring_list:list[list[Ring]]=[[],[]]
         self.__forbidden_list:list[tuple[int,int]]=[(3,19),(1,19),(2,18),(1,17),(1,15),(1,5),(1,3),(1,1),(2,2),(3,1),(9,1),(10,2),(11,1),(11,3),(11,5),(11,15),(11,19),(11,17),(10,18),(9,19)]
@@ -47,10 +66,122 @@ class Game:
         self.__endGame:bool=False
         self.__previousHover:tuple[int,int]=(0,0)
         self.__previousLine:tuple[tuple[int,int],tuple[int,int]]=((0,0),(0,0))
+
+
         
         self.update()
+
+        font = ("Helvetica", int(self.__canva_window_width / (2020 / 30)), "bold")
+
+        self.__turn_label = Label(self.__canva_window, font=font, bg="#E3D7FF")
+        self.__turn_player_label = Label(self.__canva_window, font=font, bg="#E3D7FF")
+
+        self.__turn_label.pack(pady=5)
+        self.__turn_player_label.pack()
+
+
+        self.__turn_label.configure(text="Turn : " + str(self.__player_turn))
         
+        player_color = "Blue" if self.__player_turn % 2 == 0 else "Red"
+        self.__turn_player_label.configure(text="Player : " + player_color)    
+
+        self.__leaveimage_path = "img/buttons/leave.png"
+
+        self.__leaveimage = Image.open(self.__leaveimage_path)
+        self.__leaveimage = self.__leaveimage.resize((int(self.__canva_window_width / (2020 / 340)), int(self.__canva_window_height / (2020 / 225))))
+        self.__leaveimage1 = ImageTk.PhotoImage(self.__leaveimage)
+
+        self.__canva_window.create_image(self.__canva_window_width/(2020/1740),self.__canva_window_height-850, image=self.__leaveimage1, tags="leave_image")
+
+        self.__canva_window.tag_bind("leave_image", "<Button-1>", self.leave_button_clicked)
+        self.__canva_window.tag_bind("leave_image", "<Enter>", self.leave_button_hover)
+        self.__canva_window.tag_bind("leave_image", "<Leave>", self.leave_button_hoverl)
+
+
+
+        self.__restartimage_path = "img/buttons/restart.png"
+
+        self.__restartimage = Image.open(self.__restartimage_path)
+        self.__restartimage = self.__restartimage.resize((int(self.__canva_window_width / (2020 / 400)), int(self.__canva_window_height / (2020 / 225))))
+        self.__restartimage1 = ImageTk.PhotoImage(self.__restartimage)
+
+        self.__canva_window.create_image(self.__canva_window_width/(2020/1740),self.__canva_window_height-550, image=self.__restartimage1, tags="restart_image")
+
+        self.__canva_window.tag_bind("restart_image", "<Button-1>", self.restart_button_clicked)
+        self.__canva_window.tag_bind("restart_image", "<Enter>", self.restart_button_hover)
+        self.__canva_window.tag_bind("restart_image", "<Leave>", self.restart_button_hoverl)
+
+
+
+        self.__rulesimage_path = "img/buttons/rules.png"
+
+        self.__rulesimage = Image.open(self.__rulesimage_path)
+        self.__rulesimage = self.__rulesimage.resize((int(self.__canva_window_width / (2020 / 400)), int(self.__canva_window_height / (2020 / 225))))
+        self.__rulesimage1 = ImageTk.PhotoImage(self.__rulesimage)
+
+        self.__canva_window.create_image(self.__canva_window_width/(2020/1740),self.__canva_window_height-250, image=self.__rulesimage1, tags="rules_image")
+
+        self.__canva_window.tag_bind("rules_image", "<Button-1>", self.rules_button_clicked)
+        self.__canva_window.tag_bind("rules_image", "<Enter>", self.rules_button_hover)
+        self.__canva_window.tag_bind("rules_image", "<Leave>", self.rules_button_hoverl)
+
+
+
+        self.__rightarrow_path = "img/buttons/right_arrow.png"
+
+        self.__rightarrow = Image.open(self.__rightarrow_path)
+        self.__rightarrow = self.__rightarrow.resize((int(self.__canva_window_width / (2020 / 90)), int(self.__canva_window_height / (2020 / 160))))
+        self.__rightarrow1 = ImageTk.PhotoImage(self.__rightarrow)
+
+        self.__canva_window.create_image(self.__canva_window_width/(2020/1950),self.__canva_window_height-60, image=self.__rightarrow1, tags="right_arrow_image")
+
+        self.__canva_window.tag_bind("right_arrow_image", "<Button-1>", self.right_button_clicked)
+        self.__canva_window.tag_bind("right_arrow_image", "<Enter>", self.right_button_hover)
+        self.__canva_window.tag_bind("right_arrow_image", "<Leave>", self.right_button_hoverl)
+
+
+
+        self.__leftarrow_path = "img/buttons/left_arrow.png"
+
+        self.__leftarrow = Image.open(self.__leftarrow_path)
+        self.__leftarrow = self.__leftarrow.resize((int(self.__canva_window_width / (2020 / 90)), int(self.__canva_window_height / (2020 / 160))))
+        self.__leftarrow1 = ImageTk.PhotoImage(self.__leftarrow)
+
+        self.__canva_window.create_image(self.__canva_window_width/(2020/1850),self.__canva_window_height-60, image=self.__leftarrow1, tags="left_arrow_image")
+
+        self.__canva_window.tag_bind("left_arrow_image", "<Button-1>", self.left_button_clicked)
+        self.__canva_window.tag_bind("left_arrow_image", "<Enter>", self.left_button_hover)
+        self.__canva_window.tag_bind("left_arrow_image", "<Leave>", self.left_button_hoverl)
+
+
+
+        self.__greycircle_path = "img/circles/gray_circle.png"
+
+        self.__greycircle = Image.open(self.__greycircle_path)
+        self.__greycircle = self.__greycircle.resize((int(self.__canva_window_width / (2020 / 140)), int(self.__canva_window_height / (2020 / 235))))
+        self.__greycircle1 = ImageTk.PhotoImage(self.__greycircle)
+        self.__greycircle2 = ImageTk.PhotoImage(self.__greycircle)
+        self.__greycircle3 = ImageTk.PhotoImage(self.__greycircle)
+        self.__greycircle4 = ImageTk.PhotoImage(self.__greycircle)
+        self.__greycircle5 = ImageTk.PhotoImage(self.__greycircle)
+        self.__greycircle6 = ImageTk.PhotoImage(self.__greycircle)
+
+        self.__canva_window.create_image(self.__canva_window_width/(2020/1640),self.__canva_window_height-95, image=self.__greycircle1, tags="greycircle_image1")
+        self.__canva_window.create_image(self.__canva_window_width/(2020/1480),self.__canva_window_height-95, image=self.__greycircle2, tags="greycircle_image2")
+        self.__canva_window.create_image(self.__canva_window_width/(2020/1320),self.__canva_window_height-95, image=self.__greycircle3, tags="greycircle_image3")
+
+        self.__canva_window.create_image(self.__canva_window_width/(2020/690),self.__canva_window_height-95, image=self.__greycircle4, tags="greycircle_image4")
+        self.__canva_window.create_image(self.__canva_window_width/(2020/530),self.__canva_window_height-95, image=self.__greycircle5, tags="greycircle_image5")
+        self.__canva_window.create_image(self.__canva_window_width/(2020/370),self.__canva_window_height-95, image=self.__greycircle6, tags="greycircle_image6")
         
+
+    def update_turn(self):
+        self.__turn_counter += 1
+        self.__turn_label.configure(text="Turn : " + str(self.__player_turn))
+
+        player_color = "Blue" if self.__player_turn % 2 == 0 else "Red"
+        self.__turn_player_label.configure(text="Player : " + player_color)  
+
     def update(self) -> None:
         """
         Updates the game by calling the drawing_update function and unbinding the click event if the game is over
@@ -101,18 +232,18 @@ class Game:
         self.__canva.delete('all')
         for i in range(2):
             for j in range(2):
-                self.__canva.create_line(self.__canva_width*i+(-1)**i*2*self.__box_width,self.__canva_height*j+(-1)**j*4*self.__box_height,self.__canva_width*i+(-1)**i*5*self.__box_width,self.__canva_height*j+(-1)**j*1*self.__box_height,fill="white",width=2)
-                self.__canva.create_line(self.__canva_width*i+(-1)**i*1*self.__box_width,self.__canva_height*j+(-1)**j*7*self.__box_height,self.__canva_width*i+(-1)**i*7*self.__box_width,self.__canva_height*j+(-1)**j*1*self.__box_height,fill="white",width=2)
-                self.__canva.create_line(self.__canva_width*i+(-1)**i*1*self.__box_width,self.__canva_height*j+(-1)**j*9*self.__box_height,self.__canva_width*i+(-1)**i*8*self.__box_width,self.__canva_height*j+(-1)**j*2*self.__box_height,fill="white",width=2)
-                self.__canva.create_line(self.__canva_width*i+(-1)**i*1*self.__box_width,self.__canva_height*j+(-1)**j*11*self.__box_height,self.__canva_width*i+(-1)**i*9*self.__box_width,self.__canva_height*j+(-1)**j*3*self.__box_height,fill="white",width=2)
-                self.__canva.create_line(self.__canva_width*i+(-1)**i*1*self.__box_width,self.__canva_height*j+(-1)**j*13*self.__box_height,self.__canva_width*i+(-1)**i*10*self.__box_width,self.__canva_height*j+(-1)**j*4*self.__box_height,fill="white",width=2)
-                self.__canva.create_line(self.__canva_width*i+(-1)**i*2*self.__box_width,self.__canva_height*j+(-1)**j*14*self.__box_height,self.__canva_width*i+(-1)**i*10*self.__box_width,self.__canva_height*j+(-1)**j*6*self.__box_height,fill="white",width=2)
-            self.__canva.create_line(self.__canva_width*i+(-1)**i*1*self.__box_width,13*self.__box_height,self.__canva_width*i+(-1)**i*1*self.__box_width,7*self.__box_height,fill="white",width=2)
-            self.__canva.create_line(self.__canva_width*i+(-1)**i*2*self.__box_width,16*self.__box_height,self.__canva_width*i+(-1)**i*2*self.__box_width,4*self.__box_height,fill="white",width=2)
-            self.__canva.create_line(self.__canva_width*i+(-1)**i*3*self.__box_width,17*self.__box_height,self.__canva_width*i+(-1)**i*3*self.__box_width,3*self.__box_height,fill="white",width=2)
-            self.__canva.create_line(self.__canva_width*i+(-1)**i*4*self.__box_width,18*self.__box_height,self.__canva_width*i+(-1)**i*4*self.__box_width,2*self.__box_height,fill="white",width=2)
-            self.__canva.create_line(self.__canva_width*i+(-1)**i*5*self.__box_width,19*self.__box_height,self.__canva_width*i+(-1)**i*5*self.__box_width,1*self.__box_height,fill="white",width=2)
-        self.__canva.create_line(self.__canva_width*i+(-1)**i*6*self.__box_width,18*self.__box_height,self.__canva_width*i+(-1)**i*6*self.__box_width,2*self.__box_height,fill="white",width=2)
+                self.__canva.create_line(self.__canva_width*i+(-1)**i*2*self.__box_width,self.__canva_height*j+(-1)**j*4*self.__box_height,self.__canva_width*i+(-1)**i*5*self.__box_width,self.__canva_height*j+(-1)**j*1*self.__box_height,fill="black",width=6)
+                self.__canva.create_line(self.__canva_width*i+(-1)**i*1*self.__box_width,self.__canva_height*j+(-1)**j*7*self.__box_height,self.__canva_width*i+(-1)**i*7*self.__box_width,self.__canva_height*j+(-1)**j*1*self.__box_height,fill="black",width=6)
+                self.__canva.create_line(self.__canva_width*i+(-1)**i*1*self.__box_width,self.__canva_height*j+(-1)**j*9*self.__box_height,self.__canva_width*i+(-1)**i*8*self.__box_width,self.__canva_height*j+(-1)**j*2*self.__box_height,fill="black",width=6)
+                self.__canva.create_line(self.__canva_width*i+(-1)**i*1*self.__box_width,self.__canva_height*j+(-1)**j*11*self.__box_height,self.__canva_width*i+(-1)**i*9*self.__box_width,self.__canva_height*j+(-1)**j*3*self.__box_height,fill="black",width=6)
+                self.__canva.create_line(self.__canva_width*i+(-1)**i*1*self.__box_width,self.__canva_height*j+(-1)**j*13*self.__box_height,self.__canva_width*i+(-1)**i*10*self.__box_width,self.__canva_height*j+(-1)**j*4*self.__box_height,fill="black",width=6)
+                self.__canva.create_line(self.__canva_width*i+(-1)**i*2*self.__box_width,self.__canva_height*j+(-1)**j*14*self.__box_height,self.__canva_width*i+(-1)**i*10*self.__box_width,self.__canva_height*j+(-1)**j*6*self.__box_height,fill="black",width=6)
+            self.__canva.create_line(self.__canva_width*i+(-1)**i*1*self.__box_width,13*self.__box_height,self.__canva_width*i+(-1)**i*1*self.__box_width,7*self.__box_height,fill="black",width=6)
+            self.__canva.create_line(self.__canva_width*i+(-1)**i*2*self.__box_width,16*self.__box_height,self.__canva_width*i+(-1)**i*2*self.__box_width,4*self.__box_height,fill="black",width=6)
+            self.__canva.create_line(self.__canva_width*i+(-1)**i*3*self.__box_width,17*self.__box_height,self.__canva_width*i+(-1)**i*3*self.__box_width,3*self.__box_height,fill="black",width=6)
+            self.__canva.create_line(self.__canva_width*i+(-1)**i*4*self.__box_width,18*self.__box_height,self.__canva_width*i+(-1)**i*4*self.__box_width,2*self.__box_height,fill="black",width=6)
+            self.__canva.create_line(self.__canva_width*i+(-1)**i*5*self.__box_width,19*self.__box_height,self.__canva_width*i+(-1)**i*5*self.__box_width,1*self.__box_height,fill="black",width=6)
+        self.__canva.create_line(self.__canva_width*i+(-1)**i*6*self.__box_width,18*self.__box_height,self.__canva_width*i+(-1)**i*6*self.__box_width,2*self.__box_height,fill="black",width=6)
         for list in self.__pawn_list:
             for elem in list:
                 elem.draw()
@@ -143,7 +274,7 @@ class Game:
                         self.__endGame=True
                         self.update()
                         return
-                self.check_ligne(True)
+                self.check_line(True)
         elif self.__selecting_line and self.__previousLine!=((0,0),(0,0)) and not (self.__player_turn==2 and self.__ai):
             self.remove_line(self.__previousLine)
             self.__selecting_line=False
@@ -188,7 +319,7 @@ class Game:
                     self.__endGame=True
                     self.update()
                     return
-            self.check_ligne(True)
+            self.check_line(True)
         else:
             ring:Ring=rd.choice(self.__ring_list[1])
             self.possible_move(ring.get_box()[0],ring.get_box()[1])
@@ -377,11 +508,11 @@ class Game:
                 pawn:Pawn =self.__pawn_list[1].pop(index2)
                 self.__pawn_list[0].append(pawn)
             previous_coords=previous_coords[0]+x_change,previous_coords[1]+y_change
-        self.check_ligne()
+        self.check_line()
         
             
             
-    def check_ligne(self,line_before:bool=False) -> None:
+    def check_line(self,line_before:bool=False) -> None:
         """
         Method that will call another to check if a line is made and if it is, will call another method that will react depending of the gamemode
 
@@ -501,6 +632,106 @@ class Game:
                 return
             self.__pawn_list[self.__player_selecting-1].pop(index)
         self.update()
+
+
+    def leave_button_clicked(self, event):
+        self.__canva_window.destroy()
+
+    def leave_button_hover(self, event):
+        self.__leavehoverimage_path = "img/buttons/leavehover.png"
+
+        self.__leavehoverimage = Image.open(self.__leavehoverimage_path)
+        self.__leavehoverimage = self.__leavehoverimage.resize((int(self.__canva_window_width / (2020 / 340)), int(self.__canva_window_height / (2020 / 225))))
+        self.__leavehoverimage1 = ImageTk.PhotoImage(self.__leavehoverimage)
+        self.__canva_window.itemconfig("leave_image", image=self.__leavehoverimage1)
+
+    def leave_button_hoverl(self, event):
+        self.__canva_window.itemconfig("leave_image", image=self.__leaveimage1)    
+
+    def restart_button_clicked(self, event):
+        self.__pawn_list = [[], []]
+        self.__ring_list = [[], []]
+        self.__line_list = [0, []]
+        self.__turn_counter = 0
+        self.__player_turn = 1
+
+
+
+
+        self.update()
+        self.update_turn()
+        
+    def restart_button_hover(self, event):
+        self.__restarthoverimage_path = "img/buttons/restarthover.png"
+
+        self.__restarthoverimage = Image.open(self.__restarthoverimage_path)
+        self.__restarthoverimage = self.__restarthoverimage.resize((int(self.__canva_window_width / (2020 / 400)), int(self.__canva_window_height / (2020 / 225))))
+        self.__restarthoverimage1 = ImageTk.PhotoImage(self.__restarthoverimage)
+        self.__canva_window.itemconfig("restart_image", image=self.__restarthoverimage1)
+
+    def restart_button_hoverl(self, event):
+        self.__canva_window.itemconfig("restart_image", image=self.__restartimage1)    
+
+    def rules_button_clicked(self, event):
+        self.__canva.pack_forget()
+        self.__turn_label.pack_forget()
+        self.__turn_player_label.pack_forget()
+        Rules(canva=self.__canva_window,root=self.__root,box=self.__canva, turn=self.__turn_label, turn_player=self.__turn_player_label)
+
+    def rules_button_hover(self, event):
+        self.__ruleshoverimage_path = "img/buttons/ruleshover.png"
+
+        self.__ruleshoverimage = Image.open(self.__ruleshoverimage_path)
+        self.__ruleshoverimage = self.__ruleshoverimage.resize((int(self.__canva_window_width / (2020 / 400)), int(self.__canva_window_height / (2020 / 225))))
+        self.__ruleshoverimage1 = ImageTk.PhotoImage(self.__ruleshoverimage)
+        self.__canva_window.itemconfig("rules_image", image=self.__ruleshoverimage1)
+
+    def rules_button_hoverl(self, event):
+        self.__canva_window.itemconfig("rules_image", image=self.__rulesimage1)
+
+    def right_button_clicked(self, event):
+        self.__bg_count += 1
+        if self.__bg_count > 3:
+            self.__bg_count = 3
+
+        if self.__bg_count == 2:
+            self.__canva_window.itemconfig("bgimage", image=self.__bgimage2)
+        
+        if self.__bg_count == 3:
+            self.__canva_window.itemconfig("bgimage", image=self.__bgimage3)
+
+    def right_button_hover(self, event):
+        self.__right_arrowhoverimage_path = "img/buttons/right_arrowhover.png"
+
+        self.__right_arrowhoverimage = Image.open(self.__right_arrowhoverimage_path)
+        self.__right_arrowhoverimage = self.__right_arrowhoverimage.resize((int(self.__canva_window_width / (2020 / 90)), int(self.__canva_window_height / (2020 / 160))))
+        self.__right_arrowhoverimage1 = ImageTk.PhotoImage(self.__right_arrowhoverimage)
+        self.__canva_window.itemconfig("right_arrow_image", image=self.__right_arrowhoverimage1)
+
+    def right_button_hoverl(self, event):
+        self.__canva_window.itemconfig("right_arrow_image", image=self.__rightarrow1)
+
+    def left_button_clicked(self, event):
+        self.__bg_count -= 1
+        if self.__bg_count < 1:
+            self.__bg_count = 1
+
+        if self.__bg_count == 1:
+            self.__canva_window.itemconfig("bgimage", image=self.__bgimage)
+
+        if self.__bg_count == 2:
+            self.__canva_window.itemconfig("bgimage", image=self.__bgimage2)
+
+    def left_button_hover(self, event):
+        self.__left_arrowhoverimage_path = "img/buttons/left_arrowhover.png"
+
+        self.__left_arrowhoverimage = Image.open(self.__left_arrowhoverimage_path)
+        self.__left_arrowhoverimage = self.__left_arrowhoverimage.resize((int(self.__canva_window_width / (2020 / 90)), int(self.__canva_window_height / (2020 / 160))))
+        self.__left_arrowhoverimage1 = ImageTk.PhotoImage(self.__left_arrowhoverimage)
+        self.__canva_window.itemconfig("left_arrow_image", image=self.__left_arrowhoverimage1)
+
+    def left_button_hoverl(self, event):
+        self.__canva_window.itemconfig("left_arrow_image", image=self.__leftarrow1)
         
     
 
