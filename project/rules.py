@@ -36,44 +36,28 @@ class Rules:
         x2 = x1 + frame_width
         y2 = y1 + frame_height
 
-        self.__bg_canvas.create_rectangle(x1, y1, x2, y2, fill="#E3D7FF", stipple="gray50" ,outline="#E3D7FF", width=10, tags="frame")
+        self.__bg_canvas.create_rectangle(x1, y1, x2, y2, fill="#E3D7FF",outline="#AFA2FF", width=10, tags="frame")
         self.__bg_canvas.create_image(self.__w /1.08, self.__h * 0.13, image=self.__croiximage, tags="croix_image")
 
 
-        rules_text = """To start the game :
-Place the board in the centre of the table. Each player chooses their colour: black or white.
+        rules_text = """In the game, players take turns placing their colored rings on a hexagonal board. The game has two phases:
 
-The game turn :
-Phase 1: placing the rings on the board
+Phase 1: Placing Rings
 
-In turn, starting with the white player, each player places a ring of their own colour on a free intersection of the board.
+    Starting with the white player, each player places one of their rings on a free intersection of the board.
 
-Phase 2: moving the rings
+Phase 2: Moving Rings
 
-White starts. In turn, each player must move one of their rings according to the following rules:
+    Players take turns moving one of their rings.
+        - Choose a ring to move and place a piece of the player's color in its center.
+        - Move the ring in a straight line, stopping at a free intersection.
+        - The ring can pass over free or occupied intersections but not other rings.
+        - When passing over pawns, stop at the first free intersection.
+        - Turn over passed pieces.
+    If a player forms a line of five of their pieces, they remove them and score a point by placing one of their rings on the edge circles.
+    The game ends when a player has three victory rings."""
 
-- Choose the ring to move
-- The player chooses one of his rings on the board.
-- Place a piece of your colour in the centre of the ring.
-- The player takes a piece from the reserve and places it in the centre of the ring.
-- The visible side of the piece must be the player's colour.
-- Move the ring
-- The player must move the ring in a straight line in one of the six directions, stopping at a free intersection.
-- As it moves, the ring may pass over intersections that are free or occupied by pawns. However, the ring cannot pass over other rings.
-- As long as the ring is flying over free intersections, the player can move the ring and stop it on the intersection of his choice. 
-   However, as soon as the ring flies over one or more pawns, the player must stop it on the first free intersection immediately after the rings it flies over.
-- Turning over the pieces over which the ring has passed
-- The player must then turn over all the pieces over which the ring has passed.
-- Solving lines of five checkers of the same colour
-- If a player completes a line-up of five pieces of the same colour, he must remove the five pieces from the board and return them to the reserve. 
-   To score his victory point, he must then remove one of his rings from the board (the one he has just moved or any other) and place it on one of the 3 circles at the edge of the board.
-- If the alignment contains more than five pieces, the player removes five contiguous pieces of his choice.
-- If several alignments of the player's colour are created, the player may resolve them in any order.
-- If an opponent's line-up is created, the player first solves his own line-up before letting the opponent solve his.
-- End of the game
-- As soon as a player has three victory rings, he wins the game."""
-
-        self.__bg_canvas.create_text(self.__w//2, self.__h // 2, text=rules_text, fill="black", font=("Helvetica", int(2020/175), "bold"), tags="text")
+        self.__bg_canvas.create_text(self.__w//2, self.__h // 2, text=rules_text, fill="black", font=("Helvetica", int(self.__w/(2020/20)), "bold"), tags="text")
 
     def quit_button_clicked(self, event):
         self.__bg_canvas.delete("croix_image","frame","text")
