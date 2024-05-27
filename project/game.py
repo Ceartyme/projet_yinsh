@@ -12,10 +12,10 @@ class Game:
     """
     Class that handles the game, its graphics and does everything linked to the game actions or the player's input
     """
-    def __init__(self,canva_lobby:Canvas,root:Tk) -> None:
+    def __init__(self,canva_lobby:Canvas,root:Tk,blitz_mode:bool,ai:bool) -> None:
         self.__root:Tk = root
-        self.__blitz_mode : bool = False
-        self.__ai : bool=False
+        self.__blitz_mode : bool = blitz_mode
+        self.__ai : bool=ai
         
         self.__canva_window_width:int=self.__root.winfo_screenwidth()
         self.__canva_window_height:int=self.__root.winfo_screenheight()
@@ -34,7 +34,7 @@ class Game:
         self.__bgimage3=self.__bgimage3.resize((1920,1080)) #2020 350/2020
         self.__bgimage3 = ImageTk.PhotoImage(self.__bgimage3)
 
-        self.__bg_count = 1
+        self.__bg_count:int = 1
 
         self.__canva_window.create_image(0,0,anchor=NW,image=self.__bgimage, tags="bgimage")
         
@@ -58,7 +58,7 @@ class Game:
         self.__ring_list:list[list[Ring]]=[[],[]]
         self.__forbidden_list:list[tuple[int,int]]=[(3,19),(1,19),(2,18),(1,17),(1,15),(1,5),(1,3),(1,1),(2,2),(3,1),(9,1),(10,2),(11,1),(11,3),(11,5),(11,15),(11,19),(11,17),(10,18),(9,19)]
         self.__possible_list:list[tuple[int,int]]=[]
-        self.__display_possible:bool=True
+        self.__display_possible:bool=True # à enlever
         self.__line_list:list=[0,[]]
         self.__selecting_ring:bool=False
         self.__selecting_line:bool=False
@@ -186,6 +186,7 @@ class Game:
         """
         Updates the game by calling the drawing_update function and unbinding the click event if the game is over
         """   
+        print(self.__ai,self.__blitz_mode)
         self.drawing_update()
         if self.__endGame:
             self.__canva.unbind("<Button-1>")
@@ -227,7 +228,7 @@ class Game:
     
     def drawing_update(self) -> None:
         """
-        Method that will use a bunch of methods of tkinter in order to draw the game(the rings, the pawns and the board)
+        Method that will use a bunch of methods of tkinter in order to draw the game (the rings, the pawns and the board)
         """
         self.__canva.delete('all')
         for i in range(2):
@@ -517,7 +518,7 @@ class Game:
         Method that will call another to check if a line is made and if it is, will call another method that will react depending of the gamemode
 
         Args:
-            line_before (bool, optional): True if a line has been placed just before. Defaults to False.
+            line_before (bool, optional): True if a line has been selected just before. Defaults to False.
         """
         self.__line_list=[0,[]]
         for arr in self.__pawn_list:
@@ -732,11 +733,3 @@ class Game:
 
     def left_button_hoverl(self, event):
         self.__canva_window.itemconfig("left_arrow_image", image=self.__leftarrow1)
-        
-    
-
-            
-        
-            
-            
-            
