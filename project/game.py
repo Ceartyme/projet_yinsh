@@ -91,7 +91,7 @@ class Game:
         self.__leaveimage = self.__leaveimage.resize((int(self.__canva_window_width / (2020 / 340)), int(self.__canva_window_height / (2020 / 225))))
         self.__leaveimage1 = ImageTk.PhotoImage(self.__leaveimage)
 
-        self.__canva_window.create_image(self.__canva_window_width/(2020/1740),self.__canva_window_height-850, image=self.__leaveimage1, tags="leave_image")
+        self.__canva_window.create_image(self.__canva_window_width/(2020/1740),self.__canva_window_height/ (1080/260), image=self.__leaveimage1, tags="leave_image")
 
         self.__canva_window.tag_bind("leave_image", "<Button-1>", self.leave_button_clicked)
         self.__canva_window.tag_bind("leave_image", "<Enter>", self.leave_button_hover)
@@ -105,7 +105,7 @@ class Game:
         self.__restartimage = self.__restartimage.resize((int(self.__canva_window_width / (2020 / 400)), int(self.__canva_window_height / (2020 / 225))))
         self.__restartimage1 = ImageTk.PhotoImage(self.__restartimage)
 
-        self.__canva_window.create_image(self.__canva_window_width/(2020/1740),self.__canva_window_height-550, image=self.__restartimage1, tags="restart_image")
+        self.__canva_window.create_image(self.__canva_window_width/(2020/1740),self.__canva_window_height/(1080/470), image=self.__restartimage1, tags="restart_image")
 
         self.__canva_window.tag_bind("restart_image", "<Button-1>", self.restart_button_clicked)
         self.__canva_window.tag_bind("restart_image", "<Enter>", self.restart_button_hover)
@@ -119,7 +119,7 @@ class Game:
         self.__rulesimage = self.__rulesimage.resize((int(self.__canva_window_width / (2020 / 400)), int(self.__canva_window_height / (2020 / 225))))
         self.__rulesimage1 = ImageTk.PhotoImage(self.__rulesimage)
 
-        self.__canva_window.create_image(self.__canva_window_width/(2020/1740),self.__canva_window_height-250, image=self.__rulesimage1, tags="rules_image")
+        self.__canva_window.create_image(self.__canva_window_width/(2020/1740),self.__canva_window_height/(1080/680), image=self.__rulesimage1, tags="rules_image")
 
         self.__canva_window.tag_bind("rules_image", "<Button-1>", self.rules_button_clicked)
         self.__canva_window.tag_bind("rules_image", "<Enter>", self.rules_button_hover)
