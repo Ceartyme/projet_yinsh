@@ -29,6 +29,8 @@ class Lobby:
         self.__w:int= self.__root.winfo_screenwidth()
         self.__h:int= self.__root.winfo_screenheight()
 
+        print(self.__w,self.__h)
+
         self.__bgimage : Image = Image.open("img/bg/bglobby1.png")
         self.__bgimage=self.__bgimage.resize((self.__w+100,self.__h)) #2020 350/2020
         self.__bgimage1 : PhotoImage= ImageTk.PhotoImage(self.__bgimage) 
@@ -52,7 +54,7 @@ class Lobby:
         self.__bg_canva:Canvas = Canvas(self.__root,highlightthickness=0)
         self.__bg_canva.pack(fill=BOTH, expand=True)
         self.__bg_canva.create_image(-100,0,anchor=NW,image=self.__bgimage1)
-        self.__bg_canva.create_image(self.__w/2/2,self.__h/2/2,anchor=NW,image=self.__titleimage, tags="title_image")
+        self.__bg_canva.create_image((self.__w-834)/2,self.__h/2/2,anchor=NW,image=self.__titleimage, tags="title_image")
         self.__bg_canva.create_image(self.__w/(2020/400),self.__h-175,image=self.__startimage1, tags="start_image")
         self.__bg_canva.create_image(self.__w/(2020/1000),self.__h-175,image=self.__rulesimage, tags="rules_image")
         self.__bg_canva.create_image(self.__w/(2020/1600),self.__h-175,image=self.__leaveimage1, tags="leave_image")
