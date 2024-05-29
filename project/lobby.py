@@ -54,7 +54,7 @@ class Lobby:
         self.__bg_canva:Canvas = Canvas(self.__root,highlightthickness=0)
         self.__bg_canva.pack(fill=BOTH, expand=True)
         self.__bg_canva.create_image(-100,0,anchor=NW,image=self.__bgimage1)
-        self.__bg_canva.create_image((self.__w-834)/2,self.__h/2/2,anchor=NW,image=self.__titleimage, tags="title_image")
+        self.__bg_canva.create_image((self.__w-(self.__w/2.3))/2,self.__h/2/2,anchor=NW,image=self.__titleimage, tags="title_image")
         self.__bg_canva.create_image(self.__w/(2020/400),self.__h-175,image=self.__startimage1, tags="start_image")
         self.__bg_canva.create_image(self.__w/(2020/1000),self.__h-175,image=self.__rulesimage, tags="rules_image")
         self.__bg_canva.create_image(self.__w/(2020/1600),self.__h-175,image=self.__leaveimage1, tags="leave_image")

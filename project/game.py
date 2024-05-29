@@ -22,17 +22,17 @@ class Game:
         self.__canva_window:Canvas=Canvas(canva_lobby,width=self.__canva_window_width,height=self.__canva_window_height, highlightthickness=0, background="black")
         self.__canva_window.pack(fill=BOTH, expand=True, anchor=NW)
         
-        self.__bgimage = Image.open("img/bg/bglobby1.png")
+        self.__bgimage:Image = Image.open("img/bg/bglobby1.png")
         self.__bgimage=self.__bgimage.resize((1920,1080)) #2020 350/2020
-        self.__bgimage = ImageTk.PhotoImage(self.__bgimage) 
+        self.__bgimage:PhotoImage = ImageTk.PhotoImage(self.__bgimage) 
 
-        self.__bgimage2 = Image.open("img/bg/bglobby2.png")
+        self.__bgimage2:Image = Image.open("img/bg/bglobby2.png")
         self.__bgimage2=self.__bgimage2.resize((1920,1080)) #2020 350/2020
-        self.__bgimage2 = ImageTk.PhotoImage(self.__bgimage2)
+        self.__bgimage2:PhotoImage = ImageTk.PhotoImage(self.__bgimage2)
 
-        self.__bgimage3 = Image.open("img/bg/bglobby3.png")
+        self.__bgimage3:Image = Image.open("img/bg/bglobby3.png")
         self.__bgimage3=self.__bgimage3.resize((1920,1080)) #2020 350/2020
-        self.__bgimage3 = ImageTk.PhotoImage(self.__bgimage3)
+        self.__bgimage3:PhotoImage = ImageTk.PhotoImage(self.__bgimage3)
 
         self.__bg_count:int = 1
 
@@ -58,7 +58,6 @@ class Game:
         self.__ring_list:list[list[Ring]]=[[],[]]
         self.__forbidden_list:list[tuple[int,int]]=[(3,19),(1,19),(2,18),(1,17),(1,15),(1,5),(1,3),(1,1),(2,2),(3,1),(9,1),(10,2),(11,1),(11,3),(11,5),(11,15),(11,19),(11,17),(10,18),(9,19)]
         self.__possible_list:list[tuple[int,int]]=[]
-        self.__display_possible:bool=True # à enlever
         self.__line_list:list=[0,[]]
         self.__selecting_ring:bool=False
         self.__selecting_line:bool=False
@@ -251,9 +250,8 @@ class Game:
         for list in self.__ring_list:
             for elem in list:
                 elem.draw()
-        if self.__display_possible:
-            for elem in self.__possible_list:
-                Pawn(0,self.__canva,self.__box_width,self.__box_height,elem[0]*self.__box_width,elem[1]*self.__box_height).draw()
+        for elem in self.__possible_list:
+            Pawn(0,self.__canva,self.__box_width,self.__box_height,elem[0]*self.__box_width,elem[1]*self.__box_height).draw()
         if self.__previousLine!=((0,0),(0,0)) and self.__selecting_line:
             self.__canva.create_line(self.__previousLine[0][0]*self.__box_width,self.__previousLine[0][1]*self.__box_height,self.__previousLine[1][0]*self.__box_width,self.__previousLine[1][1]*self.__box_height,fill="green",width=4)
         
