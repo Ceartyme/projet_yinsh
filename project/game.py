@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
 from rules import Rules
-from endgame import EndGameRed, EndGameBlue
+from endgame import *
 from Elements import Ring,Pawn
 import Calculation as calc
 from PIL import Image, ImageTk
@@ -185,7 +185,6 @@ class Game:
         """
         Updates the game by calling the drawing_update function and unbinding the click event if the game is over
         """   
-        print(self.__ai,self.__blitz_mode)
         self.drawing_update()
         if self.__endGame:
             self.__canva.unbind("<Button-1>")
@@ -269,7 +268,10 @@ class Game:
             if self.selectRing(selected_x,selected_y):
                 for i in range (2):
                     if len(self.__ring_list[i])==2:
-                        print("J"+str(i+1)+" gagne")
+                        self.__canva.pack_forget()
+                        self.__turn_label.pack_forget()
+                        self.__turn_player_label.pack_forget()
+                        EndGameRed(self.__canva_window,self.__root) if i==0 else EndGameBlue(self.__canva_window,self.__root)
                         self.__endGame=True
                         self.update()
                         return
@@ -314,7 +316,10 @@ class Game:
             self.__selecting_ring=False
             for i in range (2):
                 if len(self.__ring_list[i])==2:
-                    print("J"+str(i+1)+" gagne")
+                    self.__canva.pack_forget()
+                    self.__turn_label.pack_forget()
+                    self.__turn_player_label.pack_forget()
+                    EndGameRed(self.__canva_window,self.__root) if i==0 else EndGameBlue(self.__canva_window,self.__root)
                     self.__endGame=True
                     self.update()
                     return
@@ -581,13 +586,17 @@ class Game:
         As soon as a line is made, the method will announce the winner
         """
         if 1 in self.__line_list[1] and 2 in self.__line_list[1]:
-            print("Egalité")
+            EndGameDraw(self.__canva_window,self.__root)
         elif 1 in self.__line_list[1]:
-            print("J1 gagne")
+            print('test')
+            EndGameRed(self.__canva_window,self.__root) 
         elif 2 in self.__line_list[1]:
-            print("J2 gagne")
+            EndGameBlue(self.__canva_window,self.__root)
         else :
             return
+        self.__canva.pack_forget()
+        self.__turn_label.pack_forget()
+        self.__turn_player_label.pack_forget()
         self.__endGame=True
         self.update()
     
