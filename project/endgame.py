@@ -25,12 +25,12 @@ class EndGame():
 
         self._bg_canvas:Canvas = canva
 
-        self.__menuimage:Image = Image.open("img/buttons/menu.png")
-        self.__menuimage=self.__menuimage.resize((int(self._w/(2020/340)),int(self._h/(2020/225))))
-        self.__menuimage:PhotoImage = ImageTk.PhotoImage(self.__menuimage)
+        self.__menu_image:Image = Image.open("img/buttons/menu.png")
+        self.__menu_image=self.__menu_image.resize((int(self._w/(2020/340)),int(self._h/(2020/225))))
+        self.__menu_image:PhotoImage = ImageTk.PhotoImage(self.__menu_image)
         
         self._bg_canvas.create_rectangle(self._x1, self._y1, self._x2, self._y2, fill="#E3D7FF",outline="#AFA2FF", width=10, tags="frame")
-        self._bg_canvas.create_image(self._w/(2020/1000),self._h-175,image=self.__menuimage, tags="menu_image")
+        self._bg_canvas.create_image(self._w/(2020/1000),self._h-175,image=self.__menu_image, tags="menu_image")
 
         self._bg_canvas.tag_bind("menu_image", "<Button-1>", self.menu_button_clicked)
         self._bg_canvas.tag_bind("menu_image", "<Enter>", self.menu_button_enter)
@@ -52,11 +52,11 @@ class EndGame():
         Args:
             event (Event): contains all the informations of the button hovering
         """
-        self.__menuhoverimage:Image = Image.open("img/buttons/menuhover.png")
-        self.__menuhoverimage=self.__menuhoverimage.resize((int(self._w/(2020/340)),int(self._h/(2020/225))))
-        self.__menuhoverimage:PhotoImage = ImageTk.PhotoImage(self.__menuhoverimage)
+        self.__menu_hover_image:Image = Image.open("img/buttons/menuhover.png")
+        self.__menu_hover_image=self.__menu_hover_image.resize((int(self._w/(2020/340)),int(self._h/(2020/225))))
+        self.__menu_hover_image:PhotoImage = ImageTk.PhotoImage(self.__menu_hover_image)
         
-        self._bg_canvas.itemconfig("menu_image", image=self.__menuhoverimage)
+        self._bg_canvas.itemconfig("menu_image", image=self.__menu_hover_image)
 
     def menu_button_leave(self, event:Event):
         """
@@ -65,7 +65,7 @@ class EndGame():
         Args:
             event (Event): contains all the informations of the button hovering
         """
-        self._bg_canvas.itemconfig("menu_image", image=self.__menuimage)
+        self._bg_canvas.itemconfig("menu_image", image=self.__menu_image)
 
 
 
@@ -84,11 +84,11 @@ class EndGameRed(EndGame):
         """
         super().__init__(canva,root)
         
-        self.__redwin:Image = Image.open("img/bg/redwin.png")
-        self.__redwin = self.__redwin.resize((int(self._w/2.3),int(self._h/3.2)))
-        self.__redwin:PhotoImage = ImageTk.PhotoImage(self.__redwin) 
+        self.__red_win:Image = Image.open("img/bg/redwin.png")
+        self.__red_win = self.__red_win.resize((int(self._w/2.3),int(self._h/3.2)))
+        self.__red_win:PhotoImage = ImageTk.PhotoImage(self.__red_win) 
         
-        self._bg_canvas.create_image(self._w/2, self._h / 2, image=self.__redwin, tags="redwin_image")
+        self._bg_canvas.create_image(self._w/2, self._h / 2, image=self.__red_win, tags="redwin_image")
 
 class EndGameBlue(EndGame):
     """
@@ -105,11 +105,11 @@ class EndGameBlue(EndGame):
         """
         super().__init__(canva,root)
 
-        self.__bluewin:Image = Image.open("img/bg/bluewin.png")
-        self.__bluewin = self.__draw.resize((int(self._w/2.3),int(self._h/3.2)))
-        self.__bluewin:PhotoImage = ImageTk.PhotoImage(self.__draw)
+        self.__blue_win:Image = Image.open("img/bg/bluewin.png")
+        self.__blue_win = self.__draw.resize((int(self._w/2.3),int(self._h/3.2)))
+        self.__blue_win:PhotoImage = ImageTk.PhotoImage(self.__draw)
         
-        self._bg_canvas.create_image(self._w/2, self._h / 2, image=self.__bluewin, tags="bluewin_image")
+        self._bg_canvas.create_image(self._w/2, self._h / 2, image=self.__blue_win, tags="bluewin_image")
 
 class EndGameDraw(EndGame):
     """
