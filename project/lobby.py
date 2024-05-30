@@ -81,6 +81,10 @@ class Lobby:
         self.__bg_canva.tag_bind("return3_image", "<Enter>", self.return3_button_hover)
         self.__bg_canva.tag_bind("return3_image", "<Leave>", self.return3_button_hoverl)
 
+        self.__bg_canva.tag_bind("return4_image", "<Button-1>", self.return4_button_clicked)
+        self.__bg_canva.tag_bind("return4_image", "<Enter>", self.return4_button_hover)
+        self.__bg_canva.tag_bind("return4_image", "<Leave>", self.return4_button_hoverl)
+
         self.__bg_canva.tag_bind("players_image", "<Button-1>", self.players_button_clicked)
         self.__bg_canva.tag_bind("players_image", "<Enter>", self.players_button_hover)
         self.__bg_canva.tag_bind("players_image", "<Leave>", self.players_button_hoverl)        
@@ -193,13 +197,13 @@ class Lobby:
         self.__blitzimage=self.__blitzimage.resize((int(self.__w/(2020/340)),int(self.__h/(2020/225))))
         self.__blitzimage:PhotoImage = ImageTk.PhotoImage(self.__blitzimage)
 
-        self.__returnimage2:Image = Image.open("img/buttons/return.png")
-        self.__returnimage2=self.__returnimage2.resize((int(self.__w/(2020/440)),int(self.__h/(2020/225))))
-        self.__returnimage2:PhotoImage = ImageTk.PhotoImage(self.__returnimage2)
+        self.__returnimage4:Image = Image.open("img/buttons/return.png")
+        self.__returnimage4=self.__returnimage4.resize((int(self.__w/(2020/440)),int(self.__h/(2020/225))))
+        self.__returnimage4:PhotoImage = ImageTk.PhotoImage(self.__returnimage4)
 
         self.__bg_canva.create_image(self.__w/(1980/350),self.__h-175,image=self.__normalimage, tags="normal_image")
         self.__bg_canva.create_image(self.__w/(1980/1000),self.__h-175,image=self.__blitzimage, tags="blitz_image")
-        self.__bg_canva.create_image(self.__w/(1980/1650),self.__h-175,image=self.__returnimage2, tags="return2_image")
+        self.__bg_canva.create_image(self.__w/(1980/1650),self.__h-175,image=self.__returnimage4, tags="return4_image")
         
     def start_button_clicked(self,event: Event) -> None:
         """
@@ -313,6 +317,20 @@ class Lobby:
         self.__bg_canva.create_image(self.__w/(1980/1000),self.__h-175, image=self.__onlineimage, tags="online_image")
         self.__bg_canva.create_image(self.__w/(1980/1650),self.__h-175, image=self.__returnimage, tags="return2_image")
 
+    def return4_button_clicked(self, event: Event) -> None:
+        """
+        Method called when the fourth return button is clicked
+
+        Args:
+            event (Event): contains all the informations of the button clicking
+        """
+
+        self.__bg_canva.delete("normal_image", "blitz_image", "return4_image")
+
+        self.__bg_canva.create_image(self.__w/(1980/350),self.__h-175, image=self.__playersimage, tags="players_image")
+        self.__bg_canva.create_image(self.__w/(1980/1000),self.__h-175, image=self.__botimage, tags="bot_image")
+        self.__bg_canva.create_image(self.__w/(1980/1650),self.__h-175, image=self.__returnimage, tags="return2_image")
+
 
 
 
@@ -424,6 +442,15 @@ class Lobby:
             event (Event): contains all the informations of the event
         """
         self.__bg_canva.itemconfig("return3_image", image=self.__returnimage)
+
+    def return4_button_hoverl(self, event: Event) -> None:
+        """
+        Method called when you leave the fourth return button
+
+        Args:
+            event (Event): contains all the informations of the event
+        """
+        self.__bg_canva.itemconfig("return4_image", image=self.__returnimage)
 
 
     def local_button_hover(self, event: Event) -> None:
@@ -570,6 +597,19 @@ class Lobby:
         self.__returnhoverimage3:PhotoImage = ImageTk.PhotoImage(self.__returnhoverimage3)
 
         self.__bg_canva.itemconfig("return3_image", image=self.__returnhoverimage3)
+
+    def return4_button_hover(self, event: Event) -> None:
+        """
+        Method called when you hover the fourth return button
+
+        Args:
+            event (Event): contains all the informations of the hovering
+        """
+        self.__returnhoverimage4:Image = Image.open("img/buttons/returnhover.png")
+        self.__returnhoverimage4=self.__returnhoverimage4.resize((int(self.__w/(2020/440)),int(self.__h/(2020/225))))
+        self.__returnhoverimage4:PhotoImage = ImageTk.PhotoImage(self.__returnhoverimage4)
+
+        self.__bg_canva.itemconfig("return4_image", image=self.__returnhoverimage4)
 
 
 lobby = Lobby()
