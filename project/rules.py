@@ -4,23 +4,26 @@ from PIL import Image, ImageTk
 
 class Rules:
     
-    def __init__(self,canva,root, box, turn, turn_player):
+    def __init__(self,canva:Canvas,root:Tk, box:Canvas, turn:Label, turn_player:Label,mode:int=0) -> None:
+        """
+        Constructor of the class Rules
+        In there are defined a big part of the variables.
+        """
 
+        self.__w:int = root.winfo_screenwidth()
+        self.__h:int = root.winfo_screenheight()
 
-        self.__w = root.winfo_screenwidth()
-        self.__h = root.winfo_screenheight()
-
-
-        self.__croiximage = Image.open("img/buttons/croix.png")
+        self.__croiximage:Image = Image.open("img/buttons/croix.png")
         self.__croiximage = self.__croiximage.resize((int(self.__w / (2020 / 90)), int(self.__h / (2020 / 150))))
-        self.__croiximage = ImageTk.PhotoImage(self.__croiximage)
+        self.__croiximage:PhotoImage = ImageTk.PhotoImage(self.__croiximage)
 
-        self.__bg_canvas = canva
+        self.__bg_canvas:Canvas = canva
         self.__bg_canvas.create_image(self.__w /1.08, self.__h * 0.13, image=self.__croiximage, tags="croix_image")
 
-        self.__box = box
-        self.__turn = turn
-        self.__turn_player = turn_player
+        self.__box:Canvas = box
+        self.__turn:Label = turn
+        self.__turn_player:Label = turn_player
+        self.__mode:int=mode
 
         self.__bg_canvas.tag_bind("croix_image", "<Button-1>", self.quit_button_clicked)
         self.__bg_canvas.tag_bind("croix_image", "<Enter>", self.quit_button_enter)
@@ -28,20 +31,19 @@ class Rules:
 
 
 
-        frame_width = self.__w - 100
-        frame_height = self.__h - 100
-
-        x1 = 50
-        y1 = 50
-
-        x2 = x1 + frame_width
-        y2 = y1 + frame_height
+        frame_width:int = self.__w - 100
+        frame_height:int = self.__h - 100
+        x1:int = 50
+        y1:int = 50
+        x2:int = x1 + frame_width
+        y2:int = y1 + frame_height
 
         self.__bg_canvas.create_rectangle(x1, y1, x2, y2, fill="#E3D7FF",outline="#AFA2FF", width=10, tags="frame")
         self.__bg_canvas.create_image(self.__w /1.08, self.__h * 0.13, image=self.__croiximage, tags="croix_image")
 
+        ajout:str=("\n\tMode normal :" if mode==0 else "")+("\n\tThe game ends when a player has 3 victory rings\n"if (mode==0 or mode==1) else "")+("\n\tMode Blitz :" if mode==0 else "")+("\n\tThe game ends when a player makes a line of 5 rings\n"if (mode==0 or mode==2) else "")
 
-        rules_text = """In the game, players take turns placing their colored rings on a hexagonal board. The game has two phases:
+        rules_text:str = """In the game, players take turns placing their colored rings on a hexagonal board. The game has two phases:
 
 Phase 1: Placing Rings
 
@@ -56,21 +58,42 @@ Phase 2: Moving Rings
         - When passing over pawns, stop at the first free intersection.
         - Turn over passed pieces.
     If a player forms a line of five of their pieces, they remove them and score a point by placing one of their rings on the edge circles.
-    The game ends when a player has three victory rings."""
+    
+Phase 3: End of the Game
+    """+ajout
 
         self.__bg_canvas.create_text(self.__w//2, self.__h // 2, text=rules_text, fill="black", font=("Helvetica", int(self.__w/(2020/20)), "bold"), tags="text")
 
-    def quit_button_clicked(self, event):
-        self.__bg_canvas.delete("croix_image","frame","text")
-        self.__box.pack()
-        self.__turn.pack(pady=5)
-        self.__turn_player.pack()
+    def quit_button_clicked(self, event:Event) -> None:
+        """
+        Method called when the quit button is clicked
 
-    def quit_button_enter(self, event):
-        self.__croixhoverimage = Image.open("img/buttons/croixhover.png")
+        Args:
+            event (Event): Contains all the informations of the button clicking
+        """
+        self.__bg_canvas.delete("croix_image","frame","text")
+        if self.__mode!=0:
+            self.__box.pack()
+            self.__turn.pack(pady=5)
+            self.__turn_player.pack()
+
+    def quit_button_enter(self, event:Event) -> None:
+        """
+        Method called when the quit button is hovered
+
+        Args:
+            event (Event): Contains all the informations of the button hovering
+        """
+        self.__croixhoverimage:Image = Image.open("img/buttons/croixhover.png")
         self.__croixhoverimage=self.__croixhoverimage.resize((int(self.__w/(2020/90)),int(self.__h/(2020/150))))
-        self.__croixhoverimage = ImageTk.PhotoImage(self.__croixhoverimage)
+        self.__croixhoverimage:PhotoImage = ImageTk.PhotoImage(self.__croixhoverimage)
         self.__bg_canvas.itemconfig("croix_image", image=self.__croixhoverimage)
 
-    def quit_button_leave(self, event):
+    def quit_button_leave(self, event:Event) -> None:
+        """
+        Method called when the quit button is not hovered
+
+        Args:
+            event (Event): Contains all the informations of the button hovering
+        """
         self.__bg_canvas.itemconfig("croix_image", image=self.__croiximage)

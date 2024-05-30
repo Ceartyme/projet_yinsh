@@ -275,7 +275,6 @@ class Lobby:
         Args:
             event (Event): contains all the informations of the button clicking
         """
-
         self.__bg_canva.delete("players_image", "bot_image", "return_image")
 
         self.__bg_canva.create_image(self.__w/(2020/400),self.__h-175,image=self.__startimage1, tags="start_image")
