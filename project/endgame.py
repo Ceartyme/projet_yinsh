@@ -2,154 +2,132 @@ from tkinter import *
 from tkinter import ttk
 from PIL import Image, ImageTk
 
-class EndGameRed():
-    
+class EndGame():
+    """
+    Class parent used to display the win screen
+    """
+    def __init__(self,canva:Canvas,root:Tk):
+        """
+        Constructor of the class
+
+        Args:
+            canva (Canvas): Canva on which the screen is drawn
+            root (Tk): Main window of the game
+        """
+        self._w:int = root.winfo_screenwidth()
+        self._h:int = root.winfo_screenheight()
+        self.__frame_width:int = self._w- 100
+        self.__frame_height:int = self._h - 100
+        self._x1:int = 50
+        self._y1:int = 50
+        self._x2:int = self._x1 + self.__frame_width
+        self._y2:int = self._y1 + self.__frame_height
+
+        self._bg_canvas:Canvas = canva
+
+        self.__menuimage:Image = Image.open("img/buttons/menu.png")
+        self.__menuimage=self.__menuimage.resize((int(self._w/(2020/340)),int(self._h/(2020/225))))
+        self.__menuimage:PhotoImage = ImageTk.PhotoImage(self.__menuimage)
+        
+        self._bg_canvas.create_rectangle(self._x1, self._y1, self._x2, self._y2, fill="#E3D7FF",outline="#AFA2FF", width=10, tags="frame")
+        self._bg_canvas.create_image(self._w/(2020/1000),self._h-175,image=self.__menuimage, tags="menu_image")
+
+        self._bg_canvas.tag_bind("menu_image", "<Button-1>", self.menu_button_clicked)
+        self._bg_canvas.tag_bind("menu_image", "<Enter>", self.menu_button_enter)
+        self._bg_canvas.tag_bind("menu_image", "<Leave>", self.menu_button_leave)
+
+    def menu_button_clicked(self, event:Event):
+        """
+        Method called when the menu button is clicked
+
+        Args:
+            event (Event): contains all the informations of the button clicking
+        """
+        self._bg_canvas.destroy()
+
+    def menu_button_enter(self, event:Event):
+        """
+        Method that will be called when the mouse hover the menu button in order to modify its appearance
+
+        Args:
+            event (Event): contains all the informations of the button hovering
+        """
+        self.__menuhoverimage:Image = Image.open("img/buttons/menuhover.png")
+        self.__menuhoverimage=self.__menuhoverimage.resize((int(self._w/(2020/340)),int(self._h/(2020/225))))
+        self.__menuhoverimage:PhotoImage = ImageTk.PhotoImage(self.__menuhoverimage)
+        
+        self._bg_canvas.itemconfig("menu_image", image=self.__menuhoverimage)
+
+    def menu_button_leave(self, event:Event):
+        """
+        Method that will be called when the mouse leave the menu button in order to modify its appearance
+
+        Args:
+            event (Event): contains all the informations of the button hovering
+        """
+        self._bg_canvas.itemconfig("menu_image", image=self.__menuimage)
+
+
+
+class EndGameRed(EndGame):
+    """
+    Class used to display the red win screen
+    This class inherits from the EndGame class
+    """
+    def __init__(self,canva:Canvas,root:Tk):
+        """
+        Constructor of the class
+
+        Args:
+            canva (Canvas): Canva on which the screen is drawn
+            root (Tk): Main window of the game
+        """
+        super().__init__(canva,root)
+        
+        self.__redwin:Image = Image.open("img/bg/redwin.png")
+        self.__redwin = self.__redwin.resize((int(self._w/2.3),int(self._h/3.2)))
+        self.__redwin:PhotoImage = ImageTk.PhotoImage(self.__redwin) 
+        
+        self._bg_canvas.create_image(self._w/2, self._h / 2, image=self.__redwin, tags="redwin_image")
+
+class EndGameBlue(EndGame):
+    """
+    Class used to display the blue win screen
+    This class inherits from the EndGame class
+    """
     def __init__(self,canva,root):
+        """
+        Constructor of the class
 
+        Args:
+            canva (Canvas): Canva on which the screen is drawn
+            root (Tk): Main window of the game
+        """
+        super().__init__(canva,root)
 
-        self.__w = root.winfo_screenwidth()
-        self.__h = root.winfo_screenheight()
+        self.__bluewin:Image = Image.open("img/bg/bluewin.png")
+        self.__bluewin = self.__draw.resize((int(self._w/2.3),int(self._h/3.2)))
+        self.__bluewin:PhotoImage = ImageTk.PhotoImage(self.__draw)
+        
+        self._bg_canvas.create_image(self._w/2, self._h / 2, image=self.__bluewin, tags="bluewin_image")
 
-
-        self.__redwin = Image.open("img/bg/redwin.png")
-        self.__redwin = self.__redwin.resize((int(self.__w/2.3),int(self.__h/3.2)))
-        self.__redwin = ImageTk.PhotoImage(self.__redwin)
-
-        self.__bg_canvas = canva
-        self.__bg_canvas.create_image(self.__w /2, self.__h / 2, image=self.__redwin, tags="redwin_image")
-
-        frame_width = self.__w - 100
-        frame_height = self.__h - 100
-
-        x1 = 50
-        y1 = 50
-
-        x2 = x1 + frame_width
-        y2 = y1 + frame_height
-
-        self.__bg_canvas.create_rectangle(x1, y1, x2, y2, fill="#E3D7FF",outline="#AFA2FF", width=10, tags="frame")
-        self.__bg_canvas.create_image(self.__w /2, self.__h / 2, image=self.__redwin, tags="redwin_image")
-
-        self.__menuimage = Image.open("img/buttons/menu.png")
-        self.__menuimage=self.__menuimage.resize((int(self.__w/(2020/340)),int(self.__h/(2020/225))))
-        self.__menuimage = ImageTk.PhotoImage(self.__menuimage)
-
-        self.__bg_canvas.create_image(self.__w/(2020/1000),self.__h-175,image=self.__menuimage, tags="menu_image")
-
-        self.__bg_canvas.tag_bind("menu_image", "<Button-1>", self.menu_button_clicked)
-        self.__bg_canvas.tag_bind("menu_image", "<Enter>", self.menu_button_enter)
-        self.__bg_canvas.tag_bind("menu_image", "<Leave>", self.menu_button_leave)
-
-    def menu_button_clicked(self, event):
-        self.__bg_canvas.destroy()
-
-    def menu_button_enter(self, event):
-        self.__menuhoverimage = Image.open("img/buttons/menuhover.png")
-        self.__menuhoverimage=self.__menuhoverimage.resize((int(self.__w/(2020/340)),int(self.__h/(2020/225))))
-        self.__menuhoverimage = ImageTk.PhotoImage(self.__menuhoverimage)
-        self.__bg_canvas.itemconfig("menu_image", image=self.__menuhoverimage)
-
-    def menu_button_leave(self, event):
-        self.__bg_canvas.itemconfig("menu_image", image=self.__menuimage)
-
-class EndGameBlue():
-    
+class EndGameDraw(EndGame):
+    """
+    Class used to display the draw screen
+    This class inherits from the EndGame class
+    """
     def __init__(self,canva,root):
+        """
+        Constructor of the class
 
+        Args:
+            canva (Canvas): Canva on which the screen is drawn
+            root (Tk): Main window of the game
+        """
+        super().__init__(canva,root)
 
-        self.__w = root.winfo_screenwidth()
-        self.__h = root.winfo_screenheight()
-
-
-        self.__draw = Image.open("img/bg/draw.png")
-        self.__draw = self.__draw.resize((int(self.__w/2.3),int(self.__h/3.2)))
-        self.__draw = ImageTk.PhotoImage(self.__draw)
-
-        self.__bg_canvas = canva
-        self.__bg_canvas.create_image(self.__w /2, self.__h / 2, image=self.__draw, tags="draw_image")
-
-        frame_width = self.__w - 100
-        frame_height = self.__h - 100
-
-        x1 = 50
-        y1 = 50
-
-        x2 = x1 + frame_width
-        y2 = y1 + frame_height
-
-        self.__bg_canvas.create_rectangle(x1, y1, x2, y2, fill="#E3D7FF",outline="#AFA2FF", width=10, tags="frame")
-        self.__bg_canvas.create_image(self.__w /2, self.__h / 2, image=self.__draw, tags="draw_image")
-
-        self.__menuimage = Image.open("img/buttons/menu.png")
-        self.__menuimage=self.__menuimage.resize((int(self.__w/(2020/340)),int(self.__h/(2020/225))))
-        self.__menuimage = ImageTk.PhotoImage(self.__menuimage)
-
-        self.__bg_canvas.create_image(self.__w/(2020/1000),self.__h-175,image=self.__menuimage, tags="menu_image")
-
-        self.__bg_canvas.tag_bind("menu_image", "<Button-1>", self.menu_button_clicked)
-        self.__bg_canvas.tag_bind("menu_image", "<Enter>", self.menu_button_enter)
-        self.__bg_canvas.tag_bind("menu_image", "<Leave>", self.menu_button_leave)
-
-    def menu_button_clicked(self, event):
-        self.__bg_canvas.destroy()
-
-    def menu_button_enter(self, event):
-        self.__menuhoverimage = Image.open("img/buttons/menuhover.png")
-        self.__menuhoverimage=self.__menuhoverimage.resize((int(self.__w/(2020/340)),int(self.__h/(2020/225))))
-        self.__menuhoverimage = ImageTk.PhotoImage(self.__menuhoverimage)
-        self.__bg_canvas.itemconfig("menu_image", image=self.__menuhoverimage)
-
-    def menu_button_leave(self, event):
-        self.__bg_canvas.itemconfig("menu_image", image=self.__menuimage)
-
-
-class EndGameDraw():
-    
-    def __init__(self,canva,root):
-
-
-        self.__w = root.winfo_screenwidth()
-        self.__h = root.winfo_screenheight()
-
-
-        self.__draw = Image.open("img/bg/draw.png")
-        self.__draw = self.__draw.resize((int(self.__w/2.3),int(self.__h/3.2)))
-        self.__draw = ImageTk.PhotoImage(self.__draw)
-
-        self.__bg_canvas = canva
-        self.__bg_canvas.create_image(self.__w /2, self.__h / 2, image=self.__draw, tags="draw_image")
-
-        frame_width = self.__w - 100
-        frame_height = self.__h - 100
-
-        x1 = 50
-        y1 = 50
-
-        x2 = x1 + frame_width
-        y2 = y1 + frame_height
-
-        self.__bg_canvas.create_rectangle(x1, y1, x2, y2, fill="#E3D7FF",outline="#AFA2FF", width=10, tags="frame")
-        self.__bg_canvas.create_image(self.__w /2, self.__h / 2, image=self.__draw, tags="draw_image")
-
-        self.__menuimage = Image.open("img/buttons/menu.png")
-        self.__menuimage=self.__menuimage.resize((int(self.__w/(2020/340)),int(self.__h/(2020/225))))
-        self.__menuimage = ImageTk.PhotoImage(self.__menuimage)
-
-        self.__bg_canvas.create_image(self.__w/(2020/1000),self.__h-175,image=self.__menuimage, tags="menu_image")
-
-        self.__bg_canvas.tag_bind("menu_image", "<Button-1>", self.menu_button_clicked)
-        self.__bg_canvas.tag_bind("menu_image", "<Enter>", self.menu_button_enter)
-        self.__bg_canvas.tag_bind("menu_image", "<Leave>", self.menu_button_leave)
-
-    def menu_button_clicked(self, event):
-        self.__bg_canvas.destroy()
-
-    def menu_button_enter(self, event):
-        self.__menuhoverimage = Image.open("img/buttons/menuhover.png")
-        self.__menuhoverimage=self.__menuhoverimage.resize((int(self.__w/(2020/340)),int(self.__h/(2020/225))))
-        self.__menuhoverimage = ImageTk.PhotoImage(self.__menuhoverimage)
-        self.__bg_canvas.itemconfig("menu_image", image=self.__menuhoverimage)
-
-    def menu_button_leave(self, event):
-        self.__bg_canvas.itemconfig("menu_image", image=self.__menuimage)
-
+        self.__draw:Image = Image.open("img/bg/draw.png")
+        self.__draw = self.__draw.resize((int(self._w/2.3),int(self._h/3.2)))
+        self.__draw:PhotoImage = ImageTk.PhotoImage(self.__draw)
+        
+        self._bg_canvas.create_image(self._w/2, self._h / 2, image=self.__draw, tags="draw_image")

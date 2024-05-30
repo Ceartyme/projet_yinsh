@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
 from rules import Rules
-from endgame import EndGameRed, EndGameBlue
+from endgame import *
 from Elements import Ring,Pawn
 import Calculation as calc
 from PIL import Image, ImageTk
@@ -22,17 +22,17 @@ class Game:
         self.__canva_window:Canvas=Canvas(canva_lobby,width=self.__canva_window_width,height=self.__canva_window_height, highlightthickness=0, background="black")
         self.__canva_window.pack(fill=BOTH, expand=True, anchor=NW)
         
-        self.__bgimage = Image.open("img/bg/bglobby1.png")
+        self.__bgimage:Image = Image.open("img/bg/bglobby1.png")
         self.__bgimage=self.__bgimage.resize((1920,1080)) #2020 350/2020
-        self.__bgimage = ImageTk.PhotoImage(self.__bgimage) 
+        self.__bgimage:PhotoImage = ImageTk.PhotoImage(self.__bgimage) 
 
-        self.__bgimage2 = Image.open("img/bg/bglobby2.png")
+        self.__bgimage2:Image = Image.open("img/bg/bglobby2.png")
         self.__bgimage2=self.__bgimage2.resize((1920,1080)) #2020 350/2020
-        self.__bgimage2 = ImageTk.PhotoImage(self.__bgimage2)
+        self.__bgimage2:PhotoImage = ImageTk.PhotoImage(self.__bgimage2)
 
-        self.__bgimage3 = Image.open("img/bg/bglobby3.png")
+        self.__bgimage3:Image = Image.open("img/bg/bglobby3.png")
         self.__bgimage3=self.__bgimage3.resize((1920,1080)) #2020 350/2020
-        self.__bgimage3 = ImageTk.PhotoImage(self.__bgimage3)
+        self.__bgimage3:PhotoImage = ImageTk.PhotoImage(self.__bgimage3)
 
         self.__bg_count:int = 1
 
@@ -58,7 +58,6 @@ class Game:
         self.__ring_list:list[list[Ring]]=[[],[]]
         self.__forbidden_list:list[tuple[int,int]]=[(3,19),(1,19),(2,18),(1,17),(1,15),(1,5),(1,3),(1,1),(2,2),(3,1),(9,1),(10,2),(11,1),(11,3),(11,5),(11,15),(11,19),(11,17),(10,18),(9,19)]
         self.__possible_list:list[tuple[int,int]]=[]
-        self.__display_possible:bool=True # à enlever
         self.__line_list:list=[0,[]]
         self.__selecting_ring:bool=False
         self.__selecting_line:bool=False
@@ -186,7 +185,6 @@ class Game:
         """
         Updates the game by calling the drawing_update function and unbinding the click event if the game is over
         """   
-        print(self.__ai,self.__blitz_mode)
         self.drawing_update()
         if self.__endGame:
             self.__canva.unbind("<Button-1>")
@@ -251,9 +249,8 @@ class Game:
         for list in self.__ring_list:
             for elem in list:
                 elem.draw()
-        if self.__display_possible:
-            for elem in self.__possible_list:
-                Pawn(0,self.__canva,self.__box_width,self.__box_height,elem[0]*self.__box_width,elem[1]*self.__box_height).draw()
+        for elem in self.__possible_list:
+            Pawn(0,self.__canva,self.__box_width,self.__box_height,elem[0]*self.__box_width,elem[1]*self.__box_height).draw()
         if self.__previousLine!=((0,0),(0,0)) and self.__selecting_line:
             self.__canva.create_line(self.__previousLine[0][0]*self.__box_width,self.__previousLine[0][1]*self.__box_height,self.__previousLine[1][0]*self.__box_width,self.__previousLine[1][1]*self.__box_height,fill="green",width=4)
         
@@ -271,7 +268,10 @@ class Game:
             if self.selectRing(selected_x,selected_y):
                 for i in range (2):
                     if len(self.__ring_list[i])==2:
-                        print("J"+str(i+1)+" gagne")
+                        self.__canva.pack_forget()
+                        self.__turn_label.pack_forget()
+                        self.__turn_player_label.pack_forget()
+                        EndGameRed(self.__canva_window,self.__root) if i==0 else EndGameBlue(self.__canva_window,self.__root)
                         self.__endGame=True
                         self.update()
                         return
@@ -316,7 +316,10 @@ class Game:
             self.__selecting_ring=False
             for i in range (2):
                 if len(self.__ring_list[i])==2:
-                    print("J"+str(i+1)+" gagne")
+                    self.__canva.pack_forget()
+                    self.__turn_label.pack_forget()
+                    self.__turn_player_label.pack_forget()
+                    EndGameRed(self.__canva_window,self.__root) if i==0 else EndGameBlue(self.__canva_window,self.__root)
                     self.__endGame=True
                     self.update()
                     return
@@ -583,13 +586,17 @@ class Game:
         As soon as a line is made, the method will announce the winner
         """
         if 1 in self.__line_list[1] and 2 in self.__line_list[1]:
-            print("Egalité")
+            EndGameDraw(self.__canva_window,self.__root)
         elif 1 in self.__line_list[1]:
-            print("J1 gagne")
+            print('test')
+            EndGameRed(self.__canva_window,self.__root) 
         elif 2 in self.__line_list[1]:
-            print("J2 gagne")
+            EndGameBlue(self.__canva_window,self.__root)
         else :
             return
+        self.__canva.pack_forget()
+        self.__turn_label.pack_forget()
+        self.__turn_player_label.pack_forget()
         self.__endGame=True
         self.update()
     

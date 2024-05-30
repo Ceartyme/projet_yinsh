@@ -52,7 +52,7 @@ class Lobby:
         self.__bg_canva:Canvas = Canvas(self.__root,highlightthickness=0)
         self.__bg_canva.pack(fill=BOTH, expand=True)
         self.__bg_canva.create_image(-100,0,anchor=NW,image=self.__bgimage1)
-        self.__bg_canva.create_image((self.__w-834)/2,self.__h/2/2,anchor=NW,image=self.__titleimage, tags="title_image")
+        self.__bg_canva.create_image((self.__w-(self.__w/2.3))/2,self.__h/2/2,anchor=NW,image=self.__titleimage, tags="title_image")
         self.__bg_canva.create_image(self.__w/(2020/400),self.__h-175,image=self.__startimage1, tags="start_image")
         self.__bg_canva.create_image(self.__w/(2020/1000),self.__h-175,image=self.__rulesimage, tags="rules_image")
         self.__bg_canva.create_image(self.__w/(2020/1600),self.__h-175,image=self.__leaveimage1, tags="leave_image")
@@ -102,79 +102,129 @@ class Lobby:
 
 
     def normal_button_clicked(self, event: Event) -> None:
-        
+        """
+        Method called when the normal button is clicked
+
+        Args:
+            event (Event): contains all the informations of the button clicking
+        """
+        self.return2_button_clicked(event)
+        self.return1_button_clicked(event)
         Game(canva_lobby = self.__bg_canva,root=self.__root,blitz_mode=False,ai=self.__ai)
 
     def blitz_button_clicked(self,event: Event) -> None:
+        """
+        Method called when the blitz button is clicked
 
+        Args:
+            event (Event): contains all the informations of the button clicking
+        """
+        self.return2_button_clicked(event)
+        self.return1_button_clicked(event)
         Game(canva_lobby= self.__bg_canva,root=self.__root, blitz_mode=True,ai=self.__ai)
 
     def rules_button_clicked(self, event: Event) -> None:
+        """
+        Method called when the Rues button is clicked
+
+        Args:
+            event (Event): contains all the informations of the button clicking
+        """
         Rules(canva=self.__bg_canva,root=self.__root,box=None, turn=None, turn_player=None)
 
     def players_button_clicked(self, event: Event) -> None:
+        """
+        Method called when the 2 players button is clicked
+
+        Args:
+            event (Event): contains all the informations of the button clicking
+        """
         self.__ai=False
         self.__bg_canva.delete("players_image", "bot_image", "return_image")
 
-        self.__normalimage = Image.open("img/buttons/normal.png")
+        self.__normalimage:Image = Image.open("img/buttons/normal.png")
         self.__normalimage=self.__normalimage.resize((int(self.__w/(2020/445)),int(self.__h/(2020/225))))
-        self.__normalimage = ImageTk.PhotoImage(self.__normalimage)
+        self.__normalimage:PhotoImage = ImageTk.PhotoImage(self.__normalimage)
 
-        self.__blitzimage = Image.open("img/buttons/blitz.png")
+        self.__blitzimage:Image = Image.open("img/buttons/blitz.png")
         self.__blitzimage=self.__blitzimage.resize((int(self.__w/(2020/340)),int(self.__h/(2020/225))))
-        self.__blitzimage = ImageTk.PhotoImage(self.__blitzimage)
+        self.__blitzimage:PhotoImage = ImageTk.PhotoImage(self.__blitzimage)
 
-        self.__returnimage2 = Image.open("img/buttons/return.png")
+        self.__returnimage2:Image = Image.open("img/buttons/return.png")
         self.__returnimage2=self.__returnimage2.resize((int(self.__w/(2020/440)),int(self.__h/(2020/225))))
-        self.__returnimage2 = ImageTk.PhotoImage(self.__returnimage2)
+        self.__returnimage2:PhotoImage = ImageTk.PhotoImage(self.__returnimage2)
 
         self.__bg_canva.create_image(self.__w/(1980/350),self.__h-175,image=self.__normalimage, tags="normal_image")
         self.__bg_canva.create_image(self.__w/(1980/1000),self.__h-175,image=self.__blitzimage, tags="blitz_image")
         self.__bg_canva.create_image(self.__w/(1980/1650),self.__h-175,image=self.__returnimage2, tags="return2_image")
 
     def bot_button_clicked(self, event: Event) -> None:
+        """
+        Method called when the Versus AI button is clicked
+
+        Args:
+            event (Event): contains all the informations of the button clicking
+        """
         self.__ai = True
         self.__bg_canva.delete("players_image", "bot_image", "return_image")
 
-        self.__normalimage = Image.open("img/buttons/normal.png")
+        self.__normalimage:Image = Image.open("img/buttons/normal.png")
         self.__normalimage=self.__normalimage.resize((int(self.__w/(2020/445)),int(self.__h/(2020/225))))
-        self.__normalimage = ImageTk.PhotoImage(self.__normalimage)
+        self.__normalimage:PhotoImage = ImageTk.PhotoImage(self.__normalimage)
 
-        self.__blitzimage = Image.open("img/buttons/blitz.png")
+        self.__blitzimage:Image = Image.open("img/buttons/blitz.png")
         self.__blitzimage=self.__blitzimage.resize((int(self.__w/(2020/340)),int(self.__h/(2020/225))))
-        self.__blitzimage = ImageTk.PhotoImage(self.__blitzimage)
+        self.__blitzimage:PhotoImage = ImageTk.PhotoImage(self.__blitzimage)
 
-        self.__returnimage2 = Image.open("img/buttons/return.png")
+        self.__returnimage2:Image = Image.open("img/buttons/return.png")
         self.__returnimage2=self.__returnimage2.resize((int(self.__w/(2020/440)),int(self.__h/(2020/225))))
-        self.__returnimage2 = ImageTk.PhotoImage(self.__returnimage2)
+        self.__returnimage2:PhotoImage = ImageTk.PhotoImage(self.__returnimage2)
 
         self.__bg_canva.create_image(self.__w/(1980/350),self.__h-175,image=self.__normalimage, tags="normal_image")
         self.__bg_canva.create_image(self.__w/(1980/1000),self.__h-175,image=self.__blitzimage, tags="blitz_image")
         self.__bg_canva.create_image(self.__w/(1980/1650),self.__h-175,image=self.__returnimage2, tags="return2_image")
         
     def start_button_clicked(self,event: Event) -> None:
+        """
+        Method called when the Play button is clicked
+
+        Args:
+            event (Event): contains all the informations of the button clicking
+        """
         self.__bg_canva.delete("start_image", "rules_image", "leave_image")
     
-        self.__playersimage = Image.open("img/buttons/players.png")
+        self.__playersimage:Image = Image.open("img/buttons/players.png")
         self.__playersimage=self.__playersimage.resize((int(self.__w/(2020/545)),int(self.__h/(2020/225))))
-        self.__playersimage = ImageTk.PhotoImage(self.__playersimage)
+        self.__playersimage:PhotoImage = ImageTk.PhotoImage(self.__playersimage)
 
-        self.__botimage = Image.open("img/buttons/bot.png")
+        self.__botimage:Image = Image.open("img/buttons/bot.png")
         self.__botimage=self.__botimage.resize((int(self.__w/(2020/400)),int(self.__h/(2020/225))))
-        self.__botimage = ImageTk.PhotoImage(self.__botimage)
+        self.__botimage:PhotoImage = ImageTk.PhotoImage(self.__botimage)
 
-        self.__returnimage = Image.open("img/buttons/return.png")
+        self.__returnimage:Image = Image.open("img/buttons/return.png")
         self.__returnimage=self.__returnimage.resize((int(self.__w/(2020/440)),int(self.__h/(2020/225))))
-        self.__returnimage = ImageTk.PhotoImage(self.__returnimage)
+        self.__returnimage:PhotoImage = ImageTk.PhotoImage(self.__returnimage)
 
         self.__bg_canva.create_image(self.__w/(1980/350),self.__h-175, image=self.__playersimage, tags="players_image")
         self.__bg_canva.create_image(self.__w/(1980/1025),self.__h-175, image=self.__botimage, tags="bot_image")
         self.__bg_canva.create_image(self.__w/(1980/1650),self.__h-175, image=self.__returnimage, tags="return_image")
 
     def leave_button_clicked(self, event: Event) -> None:
+        """
+        Method called when the leave button is clicked
+
+        Args:
+            event (Event): contains all the informations of the button clicking
+        """
         self.__root.destroy()
 
     def return1_button_clicked(self, event: Event) -> None:
+        """
+        Method called when the first return button is clicked
+
+        Args:
+            event (Event): contains all the informations of the button clicking
+        """
         self.__bg_canva.delete("players_image", "bot_image", "return_image")
 
         self.__bg_canva.create_image(self.__w/(2020/400),self.__h-175,image=self.__startimage1, tags="start_image")
@@ -182,6 +232,12 @@ class Lobby:
         self.__bg_canva.create_image(self.__w/(2020/1600),self.__h-175,image=self.__leaveimage1, tags="leave_image")
 
     def return2_button_clicked(self, event: Event) -> None:
+        """
+        Method called when the second return button is clicked
+
+        Args:
+            event (Event): contains all the informations of the button clicking
+        """
         self.__bg_canva.delete("normal_image", "blitz_image", "return2_image")
 
         self.__bg_canva.create_image(self.__w/(1980/350),self.__h-175,image=self.__playersimage, tags="players_image")
@@ -190,88 +246,195 @@ class Lobby:
 
 
     def normal_button_hoverl(self, event: Event) -> None:
+        """
+        Method called when you leave the nomal button
+
+        Args:
+            event (Event): contains all the informations of the event
+        """
         self.__bg_canva.itemconfig("normal_image", image=self.__normalimage)     
 
     def blitz_button_hoverl(self, event: Event) -> None:
+        """
+        Method called when you leave the blitz button
+
+        Args:
+            event (Event): contains all the informations of the event
+        """
         self.__bg_canva.itemconfig("blitz_image", image=self.__blitzimage)    
 
     def rules_button_hoverl(self, event: Event) -> None:
+        """
+        Method called when you leave the rules button
+
+        Args:
+            event (Event): contains all the informations of the event
+        """
         self.__bg_canva.itemconfig("rules_image", image=self.__rulesimage)
 
     def players_button_hoverl(self, event: Event) -> None:
+        """
+        Method called when you leave the 2 Players button
+
+        Args:
+            event (Event): contains all the informations of the event
+        """
         self.__bg_canva.itemconfig("players_image", image=self.__playersimage)
 
     def bot_button_hoverl(self, event: Event) -> None:
+        """
+        Method called when you leave the Versus Bot button
+
+        Args:
+            event (Event): contains all the informations of the event
+        """
         self.__bg_canva.itemconfig("bot_image", image=self.__botimage)
 
     def start_button_hoverl(self, event: Event) -> None:
+        """
+        Method called when you leave the Play button
+
+        Args:
+            event (Event): contains all the informations of the event
+        """
         self.__bg_canva.itemconfig("start_image", image=self.__startimage1)
 
     def leave_button_hoverl(self, event: Event) -> None:
+        """
+        Method called when you leave the leave button
+
+        Args:
+            event (Event): contains all the informations of the event
+        """
         self.__bg_canva.itemconfig("leave_image", image=self.__leaveimage1)
 
     def return1_button_hoverl(self, event: Event) -> None:
+        """
+        Method called when you leave the first return button
+
+        Args:
+            event (Event): contains all the informations of the event
+        """
         self.__bg_canva.itemconfig("return_image", image=self.__returnimage) 
 
     def return2_button_hoverl(self, event: Event) -> None:
+        """
+        Method called when you leave the second return button
+
+        Args:
+            event (Event): contains all the informations of the event
+        """
         self.__bg_canva.itemconfig("return2_image", image=self.__returnimage)
 
 
 
     def normal_button_hover(self, event: Event) -> None:
-        self.__normalhoverimage = Image.open("img/buttons/normalhover.png")
+        """
+        Method called when you hover the normal button
+
+        Args:
+            event (Event): contains all the informations of the hovering
+        """
+        self.__normalhoverimage:Image = Image.open("img/buttons/normalhover.png")
         self.__normalhoverimage=self.__normalhoverimage.resize((int(self.__w/(2020/445)),int(self.__h/(2020/225))))
-        self.__normalhoverimage = ImageTk.PhotoImage(self.__normalhoverimage)
+        self.__normalhoverimage:PhotoImage = ImageTk.PhotoImage(self.__normalhoverimage)
         self.__bg_canva.itemconfig("normal_image", image=self.__normalhoverimage)
 
     def blitz_button_hover(self, event: Event) -> None:
-        self.__blitzhoverimage = Image.open("img/buttons/blitzhover.png")
+        """
+        Method called when you hover the blitz button
+
+        Args:
+            event (Event): contains all the informations of the hovering
+        """
+        self.__blitzhoverimage:Image = Image.open("img/buttons/blitzhover.png")
         self.__blitzhoverimage=self.__blitzhoverimage.resize((int(self.__w/(2020/340)),int(self.__h/(2020/225))))
-        self.__blitzhoverimage = ImageTk.PhotoImage(self.__blitzhoverimage)
+        self.__blitzhoverimage:PhotoImage = ImageTk.PhotoImage(self.__blitzhoverimage)
         self.__bg_canva.itemconfig("blitz_image", image=self.__blitzhoverimage)
 
     def rules_button_hover(self, event: Event) -> None:
-        self.__ruleshoverimage = Image.open("img/buttons/ruleshover.png")
+        """
+        Method called when you hover the Rules button
+
+        Args:
+            event (Event): contains all the informations of the hovering
+        """
+        self.__ruleshoverimage:Image = Image.open("img/buttons/ruleshover.png")
         self.__ruleshoverimage=self.__ruleshoverimage.resize((int(self.__w/(2020/340)),int(self.__h/(2020/225))))
-        self.__ruleshoverimage = ImageTk.PhotoImage(self.__ruleshoverimage)
+        self.__ruleshoverimage:PhotoImage = ImageTk.PhotoImage(self.__ruleshoverimage)
         self.__bg_canva.itemconfig("rules_image", image=self.__ruleshoverimage)
 
     def players_button_hover(self, event: Event) -> None:
-        self.__playershoverimage = Image.open("img/buttons/playershover.png")
-        self.__playershoverimage=self.__playershoverimage.resize((int(self.__w/(2020/545)),int(self.__h/(2020/225))))
-        self.__playershoverimage = ImageTk.PhotoImage(self.__playershoverimage)
-        self.__bg_canva.itemconfig("players_image", image=self.__playershoverimage)
+        """
+        Method called when you hover the 2 Players button
 
+        Args:
+            event (Event): contains all the informations of the hovering
+        """
+        self.__playershoverimage:Image = Image.open("img/buttons/playershover.png")
+        self.__playershoverimage=self.__playershoverimage.resize((int(self.__w/(2020/545)),int(self.__h/(2020/225))))
+        self.__playershoverimage:PhotoImage = ImageTk.PhotoImage(self.__playershoverimage)
+        self.__bg_canva.itemconfig("players_image", image=self.__playershoverimage)
+    
+    def bot_button_hover(self, event: Event) -> None:
+        """
+        Method called when you hover the Versus AI button
+
+        Args:
+            event (Event): contains all the informations of the hovering
+        """
+        self.__bothoverimage:Image = Image.open("img/buttons/bothover.png")
+        self.__bothoverimage=self.__bothoverimage.resize((int(self.__w/(2020/400)),int(self.__h/(2020/225))))
+        self.__bothoverimage:PhotoImage = ImageTk.PhotoImage(self.__bothoverimage)
+        self.__bg_canva.itemconfig("bot_image", image=self.__bothoverimage)
+    
     def start_button_hover(self, event: Event) -> None:
-        self.__starthoverimage = Image.open("img/buttons/playhover.png")
+        """
+        Method called when you hover the Play button
+
+        Args:
+            event (Event): contains all the informations of the hovering
+        """
+        self.__starthoverimage:Image = Image.open("img/buttons/playhover.png")
         self.__starthoverimage=self.__starthoverimage.resize((int(self.__w/(2020/340)),int(self.__h/(2020/225)))) #2020 340/120 
-        self.__starthoverimage = ImageTk.PhotoImage(self.__starthoverimage)
+        self.__starthoverimage:PhotoImage = ImageTk.PhotoImage(self.__starthoverimage)
         self.__bg_canva.itemconfig("start_image", image=self.__starthoverimage)
 
     def leave_button_hover(self, event: Event) -> None:
-        self.__leavehoverimage = Image.open("img/buttons/leavehover.png")
+        """
+        Method called when you hover the Leave button
+
+        Args:
+            event (Event): contains all the informations of the hovering
+        """
+        self.__leavehoverimage:Image = Image.open("img/buttons/leavehover.png")
         self.__leavehoverimage=self.__leavehoverimage.resize((int(self.__w/(2020/340)),int(self.__h/(2020/225))))
-        self.__leavehoverimage = ImageTk.PhotoImage(self.__leavehoverimage)
+        self.__leavehoverimage:PhotoImage = ImageTk.PhotoImage(self.__leavehoverimage)
         self.__bg_canva.itemconfig("leave_image", image=self.__leavehoverimage)
 
     def return1_button_hover(self, event: Event) -> None:
-        self.__returnhoverimage = Image.open("img/buttons/returnhover.png")
+        """
+        Method called when you hover the first return button
+
+        Args:
+            event (Event): contains all the informations of the hovering
+        """
+        self.__returnhoverimage:Image = Image.open("img/buttons/returnhover.png")
         self.__returnhoverimage=self.__returnhoverimage.resize((int(self.__w/(2020/440)),int(self.__h/(2020/225))))
-        self.__returnhoverimage = ImageTk.PhotoImage(self.__returnhoverimage)
+        self.__returnhoverimage:PhotoImage = ImageTk.PhotoImage(self.__returnhoverimage)
         self.__bg_canva.itemconfig("return_image", image=self.__returnhoverimage)
 
     def return2_button_hover(self, event: Event) -> None:
-        self.__return2hoverimage = Image.open("img/buttons/returnhover.png")
+        """
+        Method called when you hover the second return button
+
+        Args:
+            event (Event): contains all the informations of the hovering
+        """
+        self.__return2hoverimage:Image = Image.open("img/buttons/returnhover.png")
         self.__return2hoverimage=self.__return2hoverimage.resize((int(self.__w/(2020/440)),int(self.__h/(2020/225))))
-        self.__return2hoverimage = ImageTk.PhotoImage(self.__return2hoverimage)
+        self.__return2hoverimage:PhotoImage = ImageTk.PhotoImage(self.__return2hoverimage)
         self.__bg_canva.itemconfig("return2_image", image=self.__return2hoverimage)
-
-    def bot_button_hover(self, event: Event) -> None:
-        self.__bothoverimage = Image.open("img/buttons/bothover.png")
-        self.__bothoverimage=self.__bothoverimage.resize((int(self.__w/(2020/400)),int(self.__h/(2020/225))))
-        self.__bothoverimage = ImageTk.PhotoImage(self.__bothoverimage)
-        self.__bg_canva.itemconfig("bot_image", image=self.__bothoverimage)
-
 
 
 lobby = Lobby()
