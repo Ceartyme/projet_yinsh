@@ -29,8 +29,6 @@ class Lobby:
         self.__w:int= self.__root.winfo_screenwidth()
         self.__h:int= self.__root.winfo_screenheight()
 
-        print(self.__w,self.__h)
-
         self.__bgimage : Image = Image.open("img/bg/bglobby1.png")
         self.__bgimage=self.__bgimage.resize((self.__w+100,self.__h)) #2020 350/2020
         self.__bgimage1 : PhotoImage= ImageTk.PhotoImage(self.__bgimage) 

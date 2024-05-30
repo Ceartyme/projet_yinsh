@@ -45,7 +45,7 @@ class Rules:
 
 Phase 1: Placing Rings
 
-    Starting with the white player, each player places one of their rings on a free intersection of the board.
+    Starting with the red player, each player places one of their rings on a free intersection of the board.
 
 Phase 2: Moving Rings
 
