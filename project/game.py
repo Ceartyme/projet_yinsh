@@ -81,8 +81,9 @@ class Game:
 
         self.__turn_label.configure(text="Turn : " + str(self.__player_turn))
         
+        self.__action:str = "Place a ring"
         player_color:str = "Blue" if self.__player_turn % 2 == 0 else "Red"
-        self.__turn_player_label.configure(text="Player : " + player_color)    
+        self.__turn_player_label.configure(text=f"Player {self.__player_turn}: {self.__action} ",fg=player_color)    
 
         self.__leave_image_path:str = "img/buttons/leave.png"
 

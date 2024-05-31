@@ -13,12 +13,12 @@ class Rules:
         self.__w:int = root.winfo_screenwidth()
         self.__h:int = root.winfo_screenheight()
 
-        self.__croiximage:Image = Image.open("img/buttons/croix.png")
-        self.__croiximage = self.__croiximage.resize((int(self.__w / (2020 / 90)), int(self.__h / (2020 / 150))))
-        self.__croiximage:PhotoImage = ImageTk.PhotoImage(self.__croiximage)
+        self.__croix_image:Image = Image.open("img/buttons/croix.png")
+        self.__croix_image = self.__croix_image.resize((int(self.__w / (2020 / 90)), int(self.__h / (2020 / 150))))
+        self.__croix_image:PhotoImage = ImageTk.PhotoImage(self.__croix_image)
 
         self.__bg_canvas:Canvas = canva
-        self.__bg_canvas.create_image(self.__w /1.08, self.__h * 0.13, image=self.__croiximage, tags="croix_image")
+        self.__bg_canvas.create_image(self.__w /1.08, self.__h * 0.13, image=self.__croix_image, tags="croix_image")
 
         self.__box:Canvas = box
         self.__turn:Label = turn
@@ -39,9 +39,9 @@ class Rules:
         y2:int = y1 + frame_height
 
         self.__bg_canvas.create_rectangle(x1, y1, x2, y2, fill="#E3D7FF",outline="#AFA2FF", width=10, tags="frame")
-        self.__bg_canvas.create_image(self.__w /1.08, self.__h * 0.13, image=self.__croiximage, tags="croix_image")
+        self.__bg_canvas.create_image(self.__w /1.08, self.__h * 0.13, image=self.__croix_image, tags="croix_image")
 
-        ajout:str=("\n\tMode normal :" if mode==0 else "")+("\n\tThe game ends when a player has 3 victory rings\n"if (mode==0 or mode==1) else "")+("\n\tMode Blitz :" if mode==0 else "")+("\n\tThe game ends when a player makes a line of 5 rings\n"if (mode==0 or mode==2) else "")
+        self.__ajout:str=("\n\tMode normal :" if mode==0 else "")+("\n\tThe game ends when a player has 3 victory rings\n"if (mode==0 or mode==1) else "")+("\n\tMode Blitz :" if mode==0 else "")+("\n\tThe game ends when a player makes a line of 5 rings\n"if (mode==0 or mode==2) else "")
 
         rules_text:str = """In the game, players take turns placing their colored rings on a hexagonal board. The game has two phases:
 
@@ -60,7 +60,7 @@ Phase 2: Moving Rings
     If a player forms a line of five of their pieces, they remove them and score a point by placing one of their rings on the edge circles.
     
 Phase 3: End of the Game
-    """+ajout
+    """+self.__ajout
 
         self.__bg_canvas.create_text(self.__w//2, self.__h // 2, text=rules_text, fill="black", font=("Helvetica", int(self.__w/(2020/20)), "bold"), tags="text")
 
@@ -84,10 +84,10 @@ Phase 3: End of the Game
         Args:
             event (Event): Contains all the informations of the button hovering
         """
-        self.__croixhoverimage:Image = Image.open("img/buttons/croixhover.png")
-        self.__croixhoverimage=self.__croixhoverimage.resize((int(self.__w/(2020/90)),int(self.__h/(2020/150))))
-        self.__croixhoverimage:PhotoImage = ImageTk.PhotoImage(self.__croixhoverimage)
-        self.__bg_canvas.itemconfig("croix_image", image=self.__croixhoverimage)
+        self.__croix_hover_image:Image = Image.open("img/buttons/croixhover.png")
+        self.__croix_hover_image=self.__croix_hover_image.resize((int(self.__w/(2020/90)),int(self.__h/(2020/150))))
+        self.__croix_hover_image:PhotoImage = ImageTk.PhotoImage(self.__croix_hover_image)
+        self.__bg_canvas.itemconfig("croix_image", image=self.__croix_hover_image)
 
     def quit_button_leave(self, event:Event) -> None:
         """
@@ -96,4 +96,4 @@ Phase 3: End of the Game
         Args:
             event (Event): Contains all the informations of the button hovering
         """
-        self.__bg_canvas.itemconfig("croix_image", image=self.__croiximage)
+        self.__bg_canvas.itemconfig("croix_image", image=self.__croix_image)
