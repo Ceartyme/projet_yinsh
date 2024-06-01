@@ -81,10 +81,6 @@ class Lobby:
         self.__bg_canva.tag_bind("return3_image", "<Enter>", self.return_3_button_hover)
         self.__bg_canva.tag_bind("return3_image", "<Leave>", self.return_3_button_hoverl)
 
-        self.__bg_canva.tag_bind("return4_image", "<Button-1>", self.return_4_button_clicked)
-        self.__bg_canva.tag_bind("return4_image", "<Enter>", self.return_4_button_hover)
-        self.__bg_canva.tag_bind("return4_image", "<Leave>", self.return_4_button_hoverl)
-
         self.__bg_canva.tag_bind("players_image", "<Button-1>", self.players_button_clicked)
         self.__bg_canva.tag_bind("players_image", "<Enter>", self.players_button_hover)
         self.__bg_canva.tag_bind("players_image", "<Leave>", self.players_button_hoverl)        
@@ -196,13 +192,10 @@ class Lobby:
         self.__blitz_image=self.__blitz_image.resize((int(self.__w/(2020/340)),int(self.__h/(2020/225))))
         self.__blitz_image:PhotoImage = ImageTk.PhotoImage(self.__blitz_image)
 
-        self.__return_image_4:Image = Image.open("img/buttons/return.png")
-        self.__return_image_4=self.__return_image_4.resize((int(self.__w/(2020/440)),int(self.__h/(2020/225))))
-        self.__return_image_4:PhotoImage = ImageTk.PhotoImage(self.__return_image_4)
 
         self.__bg_canva.create_image(self.__w/(1980/350),self.__h-175,image=self.__normal_image, tags="normal_image")
         self.__bg_canva.create_image(self.__w/(1980/1000),self.__h-175,image=self.__blitz_image, tags="blitz_image")
-        self.__bg_canva.create_image(self.__w/(1980/1650),self.__h-175,image=self.__return_image_4, tags="return4_image")
+        self.__bg_canva.create_image(self.__w/(1980/1650),self.__h-175,image=self.__return_image, tags="return3_image")
         
     def start_button_clicked(self,event: Event) -> None:
         """
@@ -305,20 +298,6 @@ class Lobby:
         """
 
         self.__bg_canva.delete("normal_image", "blitz_image", "return3_image")
-
-        self.__bg_canva.create_image(self.__w/(1980/350),self.__h-175, image=self.__local_image, tags="local_image")
-        self.__bg_canva.create_image(self.__w/(1980/1000),self.__h-175, image=self.__online_image, tags="online_image")
-        self.__bg_canva.create_image(self.__w/(1980/1650),self.__h-175, image=self.__return_image, tags="return2_image")
-
-    def return_4_button_clicked(self, event: Event) -> None:
-        """
-        Method called when the fourth return button is clicked
-
-        Args:
-            event (Event): contains all the informations of the button clicking
-        """
-
-        self.__bg_canva.delete("normal_image", "blitz_image", "return4_image")
 
         self.__bg_canva.create_image(self.__w/(1980/350),self.__h-175, image=self.__players_image, tags="players_image")
         self.__bg_canva.create_image(self.__w/(1980/1000),self.__h-175, image=self.__bot_image, tags="bot_image")
@@ -440,7 +419,7 @@ class Lobby:
         Args:
             event (Event): contains all the informations of the event
         """
-        self.__bg_canva.itemconfig("return4_image", image=self.__return_image)
+        self.__bg_canva.itemconfig("return3_image", image=self.__return_image)
 
 
     def local_button_hover(self, event: Event) -> None:
@@ -599,7 +578,7 @@ class Lobby:
         self.__return_hover_image_4=self.__return_hover_image_4.resize((int(self.__w/(2020/440)),int(self.__h/(2020/225))))
         self.__return_hover_image_4:PhotoImage = ImageTk.PhotoImage(self.__return_hover_image_4)
 
-        self.__bg_canva.itemconfig("return4_image", image=self.__return_hover_image_4)
+        self.__bg_canva.itemconfig("return3_image", image=self.__return_hover_image_4)
 
 
 lobby = Lobby()
