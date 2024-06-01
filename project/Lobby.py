@@ -20,6 +20,7 @@ class Lobby:
         """
         Constructor of the class Lobby
         In there are defined a big part of the variables.
+        Sets up the Tkinter window setting.
         """
         self.__root: Tk = Tk()
         self.__root.configure(bg='#000')
@@ -66,6 +67,7 @@ class Lobby:
         self.__bg_canva.tag_bind("rules_image", "<Leave>", self.rules_button_hoverl)
 
         self.__bg_canva.tag_bind("leave_image", "<Button-1>", self.leave_button_clicked)
+        self.__bg_canva.bind_all("<Escape>", self.leave_button_clicked)
         self.__bg_canva.tag_bind("leave_image", "<Enter>", self.leave_button_hover)
         self.__bg_canva.tag_bind("leave_image", "<Leave>", self.leave_button_hoverl)
 
