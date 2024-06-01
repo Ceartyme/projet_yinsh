@@ -339,6 +339,7 @@ class Game:
                     self.__end_game=True
                     self.update()
                     return
+            self.update_score(2)
             self.check_line(True)
         else:
             ring:Ring=rd.choice(self.__ring_list[1])
