@@ -53,7 +53,6 @@ class Game:
         self.__rings_placed:bool=False
         self.__pawn_placed:bool=False
         self.__player_turn:int=1
-        self.__turn_counter:int=0
         self.__pawn_list:list[list[Pawn]]=[[],[]]
         self.__ring_list:list[list[Ring]]=[[],[]]
         self.__forbidden_list:list[tuple[int,int]]=[(3,19),(1,19),(2,18),(1,17),(1,15),(1,5),(1,3),(1,1),(2,2),(3,1),(9,1),(10,2),(11,1),(11,3),(11,5),(11,15),(11,19),(11,17),(10,18),(9,19)]
@@ -66,24 +65,17 @@ class Game:
         self.__previous_hover:tuple[int,int]=(0,0)
         self.__previous_line:tuple[tuple[int,int],tuple[int,int]]=((0,0),(0,0))
 
+        font:tuple = ("Helvetica", int(self.__canva_window_width / (2020 / 30)), "bold")
+        self.__turn_player_label:Label = Label(self.__canva_window, font=font, bg="#E3D7FF")
+        self.__turn_player_label.pack()
 
+        self.__action:str = "Place a Ring"
+        player_color:str = "Blue" if self.__player_turn % 2 == 0 else "Red"
+        self.__turn_player_label.configure(text=f"Player {self.__player_turn}: {self.__action} ",fg=player_color)  
         
         self.update()
 
-        font:tuple = ("Helvetica", int(self.__canva_window_width / (2020 / 30)), "bold")
-
-        self.__turn_label:Label = Label(self.__canva_window, font=font, bg="#E3D7FF")
-        self.__turn_player_label:Label = Label(self.__canva_window, font=font, bg="#E3D7FF")
-
-        self.__turn_label.pack(pady=5)
-        self.__turn_player_label.pack()
-
-
-        self.__turn_label.configure(text="Turn : " + str(self.__player_turn))
-        
-        self.__action:str = "Place a ring"
-        player_color:str = "Blue" if self.__player_turn % 2 == 0 else "Red"
-        self.__turn_player_label.configure(text=f"Player {self.__player_turn}: {self.__action} ",fg=player_color)    
+  
 
         self.__leave_image_path:str = "img/buttons/leave.png"
 
@@ -154,56 +146,59 @@ class Game:
         self.__canva_window.tag_bind("left_arrow_image", "<Leave>", self.left_button_hoverl)
 
 
+        if not self.__blitz_mode:
+            self.__red_circle_path:str = "img/circles/red_circle.png"
+            self.__red_circle:Image = Image.open(self.__red_circle_path)
+            self.__red_circle = self.__red_circle.resize((int(self.__canva_window_width / (2020 / 140)), int(self.__canva_window_height / (2020 / 235))))
+            self.__red_circle_1:PhotoImage = ImageTk.PhotoImage(self.__red_circle)
+            
+            self.__blue_circle_path:str = "img/circles/blue_circle.png"
+            self.__blue_circle:Image = Image.open(self.__blue_circle_path)
+            self.__blue_circle = self.__blue_circle.resize((int(self.__canva_window_width / (2020 / 140)), int(self.__canva_window_height / (2020 / 235))))
+            self.__blue_circle_1:PhotoImage = ImageTk.PhotoImage(self.__blue_circle)
+            
+            self.__grey_circle_path:str = "img/circles/gray_circle.png"
+            self.__grey_circle:Image = Image.open(self.__grey_circle_path)
+            self.__grey_circle = self.__grey_circle.resize((int(self.__canva_window_width / (2020 / 140)), int(self.__canva_window_height / (2020 / 235))))
+            self.__grey_circle_1:PhotoImage = ImageTk.PhotoImage(self.__grey_circle)
+            
 
-        self.__grey_circle_path:str = "img/circles/gray_circle.png"
+            self.__canva_window.create_image(self.__canva_window_width/(2020/1640),self.__canva_window_height-95, image=self.__grey_circle_1, tags="circle_image_6")
+            self.__canva_window.create_image(self.__canva_window_width/(2020/1480),self.__canva_window_height-95, image=self.__grey_circle_1, tags="circle_image_5")
+            self.__canva_window.create_image(self.__canva_window_width/(2020/1320),self.__canva_window_height-95, image=self.__grey_circle_1, tags="circle_image_4")
+            self.__canva_window.create_image(self.__canva_window_width/(2020/690),self.__canva_window_height-95, image=self.__grey_circle_1, tags="circle_image_1")
+            self.__canva_window.create_image(self.__canva_window_width/(2020/530),self.__canva_window_height-95, image=self.__grey_circle_1, tags="circle_image_2")
+            self.__canva_window.create_image(self.__canva_window_width/(2020/370),self.__canva_window_height-95, image=self.__grey_circle_1, tags="circle_image_3")
 
-        self.__grey_circle:Image = Image.open(self.__grey_circle_path)
-        self.__grey_circle = self.__grey_circle.resize((int(self.__canva_window_width / (2020 / 140)), int(self.__canva_window_height / (2020 / 235))))
-        self.__grey_circle1:PhotoImage = ImageTk.PhotoImage(self.__grey_circle)
-        self.__grey_circle2:PhotoImage = ImageTk.PhotoImage(self.__grey_circle)
-        self.__grey_circle3:PhotoImage = ImageTk.PhotoImage(self.__grey_circle)
-        self.__grey_circle4:PhotoImage = ImageTk.PhotoImage(self.__grey_circle)
-        self.__grey_circle5:PhotoImage = ImageTk.PhotoImage(self.__grey_circle)
-        self.__grey_circle6:PhotoImage = ImageTk.PhotoImage(self.__grey_circle)
-
-        self.__canva_window.create_image(self.__canva_window_width/(2020/1640),self.__canva_window_height-95, image=self.__grey_circle1, tags="greycircle_image1")
-        self.__canva_window.create_image(self.__canva_window_width/(2020/1480),self.__canva_window_height-95, image=self.__grey_circle2, tags="greycircle_image2")
-        self.__canva_window.create_image(self.__canva_window_width/(2020/1320),self.__canva_window_height-95, image=self.__grey_circle3, tags="greycircle_image3")
-
-        self.__canva_window.create_image(self.__canva_window_width/(2020/690),self.__canva_window_height-95, image=self.__grey_circle4, tags="greycircle_image4")
-        self.__canva_window.create_image(self.__canva_window_width/(2020/530),self.__canva_window_height-95, image=self.__grey_circle5, tags="greycircle_image5")
-        self.__canva_window.create_image(self.__canva_window_width/(2020/370),self.__canva_window_height-95, image=self.__grey_circle6, tags="greycircle_image6")
-        
-    """
-    def update_turn(self) -> None:
-        
-        Update the player turn and display it on the screen
-        
-        self.__turn_counter += 1
-        self.__turn_label.configure(text="Turn : " + str(self.__player_turn))
-
-        player_color = "Blue" if self.__player_turn % 2 == 0 else "Red"
-        self.__turn_player_label.configure(text="Player : " + player_color)  
-    """
-    
-    def display_msg(self,msg:str,player:int) -> None:
-        """
-        Method that will display a message on the screen
-
-        Args:
-            msg (str): message to display
-            player (int): player who won
-        """
-        self.__msg_label.configure(text="Player " + str(player) + " won !")
     
     def update(self) -> None:
         """
         Updates the game by calling the drawing_update function and unbinding the click event if the game is over
         """   
         self.drawing_update()
+        
+        player_color:str = ("Blue" if self.__player_turn % 2 == 0 else "Red") if not (self.__selecting_line or self.__selecting_ring) else ("Blue" if self.__player_selecting % 2 == 0 else "Red")
+        tour:str=(self.__player_turn if not self.__ai else"") if not (self.__selecting_line or self.__selecting_ring) else (self.__player_selecting if not self.__ai else"")
+        player:str="Player" if not (self.__player_turn % 2 == 0 and self.__ai)else 'Computer'
+        self.__turn_player_label.configure(text=f"{player} {tour}: {self.__action} ",fg=player_color)
+        
         if self.__end_game:
             self.__canva.unbind("<Button-1>")
         
+    def update_score(self,player:int) -> None:
+        """
+        Method that will update the score of the player in the circle on the bottom of the screen
+
+        Args:
+            player (int): id of the player
+        """
+        
+        index_image:int=3*(player-1)+(5-len(self.__ring_list[player-1]))
+        tag_to_update:str="circle_image_"+str(index_image)
+        
+        print("player : {}, index : {}, tag : {}".format(player,index_image,tag_to_update))
+        self.__canva_window.itemconfig(tag_to_update, image=self.__red_circle_1 if player%2==1 else self.__blue_circle_1)
+    
     
     def move(self,event:Event) -> None:
         """
@@ -281,10 +276,12 @@ class Game:
         selected_x, selected_y= calc.find_closer(event.x/self.__box_width, event.y/self.__box_height)
         if self.__selecting_ring:
             if self.select_ring(selected_x,selected_y):
+                self.__selecting_ring=False
+                if not self.__blitz_mode:
+                    self.update_score(self.__player_selecting)
                 for i in range (2):
                     if len(self.__ring_list[i])==2:
                         self.__canva.pack_forget()
-                        self.__turn_label.pack_forget()
                         self.__turn_player_label.pack_forget()
                         EndGameRed(self.__canva_window,self.__root) if i==0 else EndGameBlue(self.__canva_window,self.__root)
                         self.__end_game=True
@@ -296,12 +293,15 @@ class Game:
             self.__selecting_line=False
             self.__previous_line=((0,0),(0,0))
             self.__selecting_ring=True
+            self.__action="Select a Ring"
             self.__canva.unbind("<Motion>")
             self.__canva.unbind("<Button-3>")
             self.update()         
         elif not self.__selecting_line and not self.__selecting_ring and not (self.__player_turn==2 and self.__ai):
             self.place(selected_x,selected_y)
             if not self.__selecting_line and not self.__selecting_ring and (self.__player_turn==2 and self.__ai):
+                self.__action="Place a Pawn and move the Ring" if self.__rings_placed else self.__action
+                self.update()
                 self.__root.after(1000, self.bot_turn)
                 
                 
@@ -315,14 +315,16 @@ class Game:
                 temp_cos=(rd.randint(1,11),rd.randint(1,19))
             ring:Ring=Ring(self.__player_turn,self.__canva,self.__box_width,self.__box_height,temp_cos[0]*self.__box_width,temp_cos[1]*self.__box_height)
             self.__ring_list[self.__player_turn-1].append(ring)
-            self.update()
             self.__rings_placed= len(self.__ring_list[0])==5 and len(self.__ring_list[1])==5
             self.__player_turn= 3-self.__player_turn
+            self.__action="Place a Pawn" if self.__rings_placed else self.__action
+            self.update()
         elif self.__selecting_line:
             choice:tuple[tuple[int,int],tuple[int,int]]=self.__line_list[2+rd.choice(calc.get_all_index_line(self.__player_selecting,self.__line_list[2:]))][0]
             self.remove_line(choice)
             self.__selecting_line=False
             self.__selecting_ring=True
+            self.__action="Select a Ring"
             self.update()
             self.__root.after(500, self.bot_turn)
         elif self.__selecting_ring:
@@ -332,7 +334,6 @@ class Game:
             for i in range (2):
                 if len(self.__ring_list[i])==2:
                     self.__canva.pack_forget()
-                    self.__turn_label.pack_forget()
                     self.__turn_player_label.pack_forget()
                     EndGameRed(self.__canva_window,self.__root) if i==0 else EndGameBlue(self.__canva_window,self.__root)
                     self.__end_game=True
@@ -387,7 +388,6 @@ class Game:
         index:int=calc.get_index(selected_x,selected_y,self.__ring_list[self.__player_selecting-1])
         if index!=-1:
             self.__ring_list[self.__player_selecting-1].pop(index)
-            self.__selecting_ring=False
             self.update()
         return index!=-1 
     
@@ -408,9 +408,10 @@ class Game:
             if not (calc.position_in_list(selected_x,selected_y,self.__ring_list[0]) or calc.position_in_list(selected_x,selected_y,self.__ring_list[1])):
                 ring:Ring=Ring(self.__player_turn,self.__canva,self.__box_width,self.__box_height,selected_x*self.__box_width,selected_y*self.__box_height)
                 self.__ring_list[self.__player_turn-1].append(ring)
-                self.update()
                 self.__rings_placed= len(self.__ring_list[0])==5 and len(self.__ring_list[1])==5
+                self.__action="Place a Pawn" if self.__rings_placed else self.__action
                 self.__player_turn= 3-self.__player_turn
+                self.update()
         else :
             for elem in self.__ring_list[self.__player_turn-1]:
                 if elem.get_box()==(selected_x,selected_y):
@@ -427,9 +428,11 @@ class Game:
                     pawn:Pawn = Pawn(self.__player_turn,self.__canva,self.__box_width,self.__box_height,selected_x*self.__box_width,selected_y*self.__box_height)
                     self.__pawn_list[self.__player_turn-1].append(pawn)
                     self.possible_move(selected_x,selected_y)
+                    self.__action="Move the selected Ring"
                     self.update()
                     self.__pawn_placed=True
             elif self.__pawn_placed :
+                self.__action="Place a Pawn"
                 if (selected_x,selected_y) in self.__possible_list:
                     self.__pawn_placed=False
                     previous_coords=self.__pawn_list[self.__player_turn-1][-1].get_box()
@@ -545,7 +548,9 @@ class Game:
         if self.__line_list[0]!=0:
             self.line_blitz() if self.__blitz_mode else self.line_normal()
         else :
+            self.__action="Place a Pawn"
             self.__player_turn=3-self.__player_turn
+            self.update()
             if line_before and self.__player_turn==2 and self.__ai:
                 self.__root.after(1000,self.bot_turn())
             
@@ -610,7 +615,6 @@ class Game:
         else :
             return
         self.__canva.pack_forget()
-        self.__turn_label.pack_forget()
         self.__turn_player_label.pack_forget()
         self.__end_game=True
         self.update()
@@ -620,10 +624,12 @@ class Game:
         Method that will be called if a line if made in normal mode
         This method will check who made a line and will let him remove his line and one of his pawns
         """
+        self.__action="Select a Line"
         if self.__line_list[1].count(self.__player_turn)>0:
             self.__player_selecting=self.__player_turn
             self.__selecting_line=True
             if self.__player_selecting==2 and self.__ai==True:
+                self.update()
                 self.__root.after(1000,self.bot_turn)
             else:
                 self.__canva.bind("<Motion>",self.move)
@@ -632,6 +638,7 @@ class Game:
             self.__player_selecting=3-self.__player_turn
             self.__selecting_line=True
             if self.__player_selecting==2 and self.__ai==True:
+                self.update()
                 self.__root.after(1000,self.bot_turn)
             else:
                 self.__canva.bind("<Motion>",self.move)
@@ -691,7 +698,6 @@ class Game:
         self.__ring_list = [[], []]
         self.__line_list = [0, []]
         self.__possible_list = []
-        self.__turn_counter = 0
         self.__player_turn = 1
         
         self.__rings_placed=False
@@ -703,6 +709,10 @@ class Game:
         self.__previous_hover=(0,0)
         self.__previous_line=((0,0),(0,0))
 
+        self.__action:str = "Place a ring"
+        player_color:str = "Blue" if self.__player_turn % 2 == 0 else "Red"
+        self.__turn_player_label.configure(text=f"Player {self.__player_turn}: {self.__action} ",fg=player_color)
+        
         self.update()
 
     def rules_button_clicked(self, event: Event) -> None:
@@ -713,9 +723,8 @@ class Game:
             event (Event): contains all the informations of the button clicking
         """
         self.__canva.pack_forget()
-        self.__turn_label.pack_forget()
         self.__turn_player_label.pack_forget()
-        Rules(canva=self.__canva_window,root=self.__root,box=self.__canva, turn=self.__turn_label, turn_player=self.__turn_player_label,mode=1+int(self.__blitz_mode))
+        Rules(canva=self.__canva_window,root=self.__root,box=self.__canva, turn_player=self.__turn_player_label,mode=1+int(self.__blitz_mode))
 
     def right_button_clicked(self, event: Event) -> None:
         """

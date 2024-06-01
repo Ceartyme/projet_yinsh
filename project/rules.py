@@ -4,7 +4,7 @@ from PIL import Image, ImageTk
 
 class Rules:
     
-    def __init__(self,canva:Canvas,root:Tk, box:Canvas, turn:Label, turn_player:Label,mode:int=0) -> None:
+    def __init__(self,canva:Canvas,root:Tk, box:Canvas, turn_player:Label,mode:int=0) -> None:
         """
         Constructor of the class Rules
         In there are defined a big part of the variables.
@@ -21,7 +21,6 @@ class Rules:
         self.__bg_canvas.create_image(self.__w /1.08, self.__h * 0.13, image=self.__croix_image, tags="croix_image")
 
         self.__box:Canvas = box
-        self.__turn:Label = turn
         self.__turn_player:Label = turn_player
         self.__mode:int=mode
 
@@ -74,7 +73,6 @@ Phase 3: End of the Game
         self.__bg_canvas.delete("croix_image","frame","text")
         if self.__mode!=0:
             self.__box.pack()
-            self.__turn.pack(pady=5)
             self.__turn_player.pack()
 
     def quit_button_enter(self, event:Event) -> None:
