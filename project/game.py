@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
-from rules import Rules
-from endgame import *
+from Rules import Rules
+from EndGame import *
 from Elements import Ring,Pawn
 import Calculation as calc
 from PIL import Image, ImageTk
