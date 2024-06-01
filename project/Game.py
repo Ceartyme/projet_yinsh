@@ -279,8 +279,7 @@ class Game:
         if self.__selecting_ring:
             if self.select_ring(selected_x,selected_y):
                 self.__selecting_ring=False
-                if not self.__blitz_mode:
-                    self.update_score(self.__player_selecting)
+                self.update_score(self.__player_selecting)
                 for i in range (2):
                     if len(self.__ring_list[i])==2:
                         self.__canva.pack_forget()

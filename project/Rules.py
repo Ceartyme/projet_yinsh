@@ -25,6 +25,7 @@ class Rules:
         self.__mode:int=mode
 
         self.__bg_canvas.tag_bind("croix_image", "<Button-1>", self.quit_button_clicked)
+        self.__bg_canvas.bind_all("<Escape>", self.quit_button_clicked)
         self.__bg_canvas.tag_bind("croix_image", "<Enter>", self.quit_button_enter)
         self.__bg_canvas.tag_bind("croix_image", "<Leave>", self.quit_button_leave)
 
