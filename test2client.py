@@ -39,7 +39,7 @@ class Client:
         if len(message) > 0 :
             self.msg_entry.delete(0, tk.END)
             self.client_socket.send(message.encode())
-            self.display_message(f"Vous : {message}")
+            self.display_message(f"You : {message}")
 
     def display_message(self, message):
         self.chat_area.config(state='normal')
