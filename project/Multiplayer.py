@@ -25,7 +25,7 @@ class Mutliplayer:
         self.__bg_canvas:Canvas = canva
 
         self.__bg_canvas.tag_bind("return4_image", "<Button-1>", self.return_button_clicked)
-        self.__bg_canvas.bind_all("<Return>", self.return_button_clicked)
+        self.__bg_canvas.bind_all("<Escape>", self.return_button_clicked)
         self.__bg_canvas.tag_bind("return4_image", "<Enter>", self.return_button_enter)
         self.__bg_canvas.tag_bind("return4_image", "<Leave>", self.return_button_leave)
 

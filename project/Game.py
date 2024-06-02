@@ -67,7 +67,7 @@ class Game:
 
         font:tuple = ("Helvetica", int(self.__canva_window_width / (2020 / 30)), "bold")
         self.__turn_player_label:Label = Label(self.__canva_window, font=font, bg="#E3D7FF")
-        self.__turn_player_label.pack()
+        self.__turn_player_label.pack( pady=5)
 
         self.__action:str = "Place a Ring"
         player_color:str = "Blue" if self.__player_turn % 2 == 0 else "Red"
