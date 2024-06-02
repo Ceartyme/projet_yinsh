@@ -32,7 +32,7 @@ class Lobby:
 
         mixer.init()
         mixer.music.load("music/igmusic.mp3")
-        mixer.music.set_volume(1)
+        mixer.music.set_volume(0.75)
         mixer.music.play(-1)
         
         self.__bg_image : Image = Image.open("img/bg/bglobby1.png")
