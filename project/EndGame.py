@@ -108,8 +108,8 @@ class EndGameBlue(EndGame):
         super().__init__(canva,root)
 
         self.__blue_win:Image = Image.open("img/bg/bluewin.png")
-        self.__blue_win = self.__draw.resize((int(self._w/2.3),int(self._h/3.2)))
-        self.__blue_win:PhotoImage = ImageTk.PhotoImage(self.__draw)
+        self.__blue_win = self.__blue_win.resize((int(self._w/2.3),int(self._h/3.2)))
+        self.__blue_win:PhotoImage = ImageTk.PhotoImage(self.__blue_win)
         
         self._bg_canvas.create_image(self._w/2, self._h / 2, image=self.__blue_win, tags="bluewin_image")
 
