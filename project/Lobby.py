@@ -67,7 +67,6 @@ class Lobby:
         self.__bg_canva.tag_bind("rules_image", "<Leave>", self.rules_button_hoverl)
 
         self.__bg_canva.tag_bind("leave_image", "<Button-1>", self.leave_button_clicked)
-        self.__bg_canva.bind_all("<Escape>", self.leave_button_clicked)
         self.__bg_canva.tag_bind("leave_image", "<Enter>", self.leave_button_hover)
         self.__bg_canva.tag_bind("leave_image", "<Leave>", self.leave_button_hoverl)
 
@@ -140,7 +139,7 @@ class Lobby:
         Args:
             event (Event): contains all the informations of the button clicking
         """
-        Rules(canva=self.__bg_canva,root=self.__root,box=None, turn=None, turn_player=None)
+        Rules(canva=self.__bg_canva,root=self.__root,box=None, turn_player=None)
 
     def players_button_clicked(self, event: Event) -> None:
         """

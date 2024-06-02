@@ -23,6 +23,7 @@ class EndGame():
         self._x2:int = self._x1 + self.__frame_width
         self._y2:int = self._y1 + self.__frame_height
 
+        self._root = root
         self._bg_canvas:Canvas = canva
 
         self.__menu_image:Image = Image.open("img/buttons/menu.png")
@@ -33,8 +34,6 @@ class EndGame():
         self._bg_canvas.create_image(self._w/(2020/1000),self._h-175,image=self.__menu_image, tags="menu_image")
 
         self._bg_canvas.tag_bind("menu_image", "<Button-1>", self.menu_button_clicked)
-        self._bg_canvas.bind_all("<Return>", self.menu_button_clicked)
-        self._bg_canvas.bind_all("<Enter>", self.menu_button_enter)
         self._bg_canvas.tag_bind("menu_image", "<Enter>", self.menu_button_enter)
         self._bg_canvas.tag_bind("menu_image", "<Leave>", self.menu_button_leave)
 

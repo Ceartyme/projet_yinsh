@@ -20,12 +20,12 @@ class Rules:
         self.__bg_canvas:Canvas = canva
         self.__bg_canvas.create_image(self.__w /1.08, self.__h * 0.13, image=self.__croix_image, tags="croix_image")
 
+        self.__root: Tk = root
         self.__box:Canvas = box
         self.__turn_player:Label = turn_player
         self.__mode:int=mode
 
         self.__bg_canvas.tag_bind("croix_image", "<Button-1>", self.quit_button_clicked)
-        self.__bg_canvas.bind_all("<Escape>", self.quit_button_clicked)
         self.__bg_canvas.tag_bind("croix_image", "<Enter>", self.quit_button_enter)
         self.__bg_canvas.tag_bind("croix_image", "<Leave>", self.quit_button_leave)
 

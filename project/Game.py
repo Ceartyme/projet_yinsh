@@ -86,7 +86,6 @@ class Game:
         self.__canva_window.create_image(self.__canva_window_width/(2020/1740),self.__canva_window_height/ (1080/260), image=self.__leave_image1, tags="leave_image")
 
         self.__canva_window.tag_bind("leave_image", "<Button-1>", self.leave_button_clicked)
-        self.__canva_window.bind_all("<Escape>", self.leave_button_clicked)
         self.__canva_window.tag_bind("leave_image", "<Enter>", self.leave_button_hover)
         self.__canva_window.tag_bind("leave_image", "<Leave>", self.leave_button_hoverl)
 
@@ -101,7 +100,7 @@ class Game:
         self.__canva_window.create_image(self.__canva_window_width/(2020/1740),self.__canva_window_height/(1080/470), image=self.__restart_image1, tags="restart_image")
 
         self.__canva_window.tag_bind("restart_image", "<Button-1>", self.restart_button_clicked)
-        self.__canva_window.bind_all("<KeyPress-r>", self.restart_button_clicked)
+        self.__root.bind_all("<KeyPress-r>", self.restart_button_clicked)
         self.__canva_window.tag_bind("restart_image", "<Enter>", self.restart_button_hover)
         self.__canva_window.tag_bind("restart_image", "<Leave>", self.restart_button_hoverl)
 
