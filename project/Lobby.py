@@ -275,6 +275,7 @@ class Lobby:
         Args:
             event (Event): contains all the informations of the button clicking
         """
+        
         self.__bg_canva.delete("players_image", "bot_image", "return_image")
 
         self.__bg_canva.create_image(self.__w/(2020/400),self.__h-175,image=self.__start_image1, tags="start_image")
@@ -307,7 +308,7 @@ class Lobby:
 
         self.__bg_canva.create_image(self.__w/(1980/350),self.__h-175, image=self.__players_image, tags="players_image")
         self.__bg_canva.create_image(self.__w/(1980/1000),self.__h-175, image=self.__bot_image, tags="bot_image")
-        self.__bg_canva.create_image(self.__w/(1980/1650),self.__h-175, image=self.__return_image, tags="return2_image")
+        self.__bg_canva.create_image(self.__w/(1980/1650),self.__h-175, image=self.__return_image, tags="return_image")
 
 
     def normal_button_hoverl(self, event: Event) -> None:
