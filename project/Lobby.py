@@ -30,6 +30,11 @@ class Lobby:
         self.__w:int= self.__root.winfo_screenwidth()
         self.__h:int= self.__root.winfo_screenheight()
 
+        mixer.init()
+        mixer.music.load("music/igmusic.mp3")
+        mixer.music.set_volume(1)
+        mixer.music.play(-1)
+        
         self.__bg_image : Image = Image.open("img/bg/bglobby1.png")
         self.__bg_image=self.__bg_image.resize((self.__w+100,self.__h)) #2020 350/2020
         self.__bg_image1 : PhotoImage= ImageTk.PhotoImage(self.__bg_image) 
