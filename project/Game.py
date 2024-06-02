@@ -196,8 +196,6 @@ class Game:
         
         index_image:int=3*(player-1)+(5-len(self.__ring_list[player-1]))
         tag_to_update:str="circle_image_"+str(index_image)
-        
-        print("player : {}, index : {}, tag : {}".format(player,index_image,tag_to_update))
         self.__canva_window.itemconfig(tag_to_update, image=self.__red_circle_1 if player%2==1 else self.__blue_circle_1)
     
     
@@ -709,7 +707,9 @@ class Game:
         self.__end_game=False
         self.__previous_hover=(0,0)
         self.__previous_line=((0,0),(0,0))
-
+        if not self.__blitz_mode:
+            for i in range(1,7):
+                self.__canva_window.itemconfig(f"circle_image_{i}", image=self.__grey_circle_1)
         self.__action:str = "Place a ring"
         player_color:str = "Blue" if self.__player_turn % 2 == 0 else "Red"
         self.__turn_player_label.configure(text=f"Player {self.__player_turn}: {self.__action} ",fg=player_color)
