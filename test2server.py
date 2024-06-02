@@ -41,7 +41,7 @@ class Server:
                 message = client_socket.recv(1024).decode()
                 if message:
                     self.display_message(f"Client : {message}")
-                    self.broadcast(f"Vous : {message}", client_socket)
+                    self.broadcast(f"You : {message}", client_socket)
                 else:
                     client_socket.close()
                     self.clients.remove(client_socket)
