@@ -307,6 +307,8 @@ class Game:
         """
         Method that will be called in order to make the bot's turn
         """
+        if not (self.__player_turn==2 and self.__ai):
+            return
         if not self.__rings_placed:
             temp_cos:tuple[int,int]=(0,0)
             while not calc.possible_position(temp_cos[0],temp_cos[1],self.__forbidden_list) or calc.position_in_list(temp_cos[0],temp_cos[1],self.__ring_list[0]) or calc.position_in_list(temp_cos[0],temp_cos[1],self.__ring_list[1]) :
